@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Gao Yongwei&#39;s Blog</title>
+  <title>域名+解析+github搭建自己的个人主页 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Siagao">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gao Yongwei&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="简介Hexo是一个简单、快速、强大的基于 Github Pages 的博客发布工具，支持Markdown格式，有众多优秀插件和主题。 原理由于github pages存放的都是静态文件，博客存放的不只是文章内容，还有文章列表、分类、标签、翻页等动态内容，假如每次写完一篇文章都要手动更新博文目录和相关链接信息，相信谁都会疯掉，所以hexo所做的就是将这些md文件都放在本地，每次写完文章后调用写好的命">
+<meta name="keywords" content="d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域名+解析+github搭建自己的个人主页">
+<meta property="og:url" content="http://yoursite.com/2019/05/24/hexo模板搭建主页/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="Siagao">
+<meta property="og:description" content="简介Hexo是一个简单、快速、强大的基于 Github Pages 的博客发布工具，支持Markdown格式，有众多优秀插件和主题。 原理由于github pages存放的都是静态文件，博客存放的不只是文章内容，还有文章列表、分类、标签、翻页等动态内容，假如每次写完一篇文章都要手动更新博文目录和相关链接信息，相信谁都会疯掉，所以hexo所做的就是将这些md文件都放在本地，每次写完文章后调用写好的命">
 <meta property="og:locale" content="English and Chinese">
+<meta property="og:updated_time" content="2019-05-24T13:10:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gao Yongwei&#39;s Blog">
-<meta name="twitter:description" content="Siagao">
+<meta name="twitter:title" content="域名+解析+github搭建自己的个人主页">
+<meta name="twitter:description" content="简介Hexo是一个简单、快速、强大的基于 Github Pages 的博客发布工具，支持Markdown格式，有众多优秀插件和主题。 原理由于github pages存放的都是静态文件，博客存放的不只是文章内容，还有文章列表、分类、标签、翻页等动态内容，假如每次写完一篇文章都要手动更新博文目录和相关链接信息，相信谁都会疯掉，所以hexo所做的就是将这些md文件都放在本地，每次写完文章后调用写好的命">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -157,100 +159,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-域名+解析+github搭建网站" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-hexo模板搭建主页" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/24/域名+解析+github搭建网站/">域名+解析+github搭建自己的个人主页</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/24/域名+解析+github搭建网站/" class="archive-article-date">
-  	<time datetime="2019-05-24T10:06:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>必备：github账号一个   域名一个</p>
-<h2 id="第一步从github向域名做链接"><a href="#第一步从github向域名做链接" class="headerlink" title="第一步从github向域名做链接"></a>第一步从github向域名做链接</h2><p>1）首先在github中建立一个 username.github.io的库，只允许建立一个这样的库,其中username就是你github的用户名，也只能是你的username！<br>新建一个文件 名为CNAME 写入自己的域名地址 如  <a href="http://www.gaoyongwei.site" target="_blank" rel="noopener">www.gaoyongwei.site</a></p>
-<h2 id="第二步从域名向github做链接"><a href="#第二步从域名向github做链接" class="headerlink" title="第二步从域名向github做链接"></a>第二步从域名向github做链接</h2><p>配置阿里云域名，因为我购买的是阿里云的.site域名，所以以site举例</p>
-<p>2)进入阿里云控制台，进行解析域名，</p>
-<table>
-<thead>
-<tr>
-<th>记录值</th>
-<th style="text-align:right">主机记录</th>
-<th style="text-align:center">解析线路</th>
-<th style="text-align:center">记录值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CNAME</td>
-<td style="text-align:right">www</td>
-<td style="text-align:center">默认</td>
-<td style="text-align:center">siagaowei1990.github.io</td>
-</tr>
-</tbody>
-</table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/24/域名+解析+github搭建网站/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo模板搭建主页" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/24/hexo模板搭建主页/">域名+解析+github搭建自己的个人主页</a>
+    <h1 class="article-title" itemprop="name">
+      域名+解析+github搭建自己的个人主页
     </h1>
   
 
@@ -287,6 +203,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -305,16 +242,79 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/24/hexo模板搭建主页/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/24/hexo模板搭建主页/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/05/24/域名+解析+github搭建网站/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          域名+解析+github搭建自己的个人主页
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -334,8 +334,14 @@
 
 
 
+  
+  
+  
 
   
+
+  
+
   
 
 
@@ -358,8 +364,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
