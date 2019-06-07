@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>json四个函数 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#json 一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
+  <meta name="description" content="json一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函">
 <meta property="og:type" content="article">
 <meta property="og:title" content="json四个函数">
 <meta property="og:url" content="http://yoursite.com/2019/06/07/json/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="#json 一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
+<meta property="og:description" content="json一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函">
 <meta property="og:locale" content="English and Chinese">
-<meta property="og:updated_time" content="2019-06-07T05:38:23.000Z">
+<meta property="og:updated_time" content="2019-06-07T05:39:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="json四个函数">
-<meta name="twitter:description" content="#json 一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
+<meta name="twitter:description" content="json一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -178,8 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#json</p>
-<p>一、概念理解</p>
+        <h1 id="json"><a href="#json" class="headerlink" title="json"></a>json</h1><p>一、概念理解</p>
 <p>1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）<br>　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）<br>　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函数是将字符串转化为字典）</p>
 <p>2、json.dump()和json.load()主要用来读写json文件函数</p>
 <h2 id="1-dumps"><a href="#1-dumps" class="headerlink" title="1. dumps"></a>1. dumps</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="comment"># json.dumps()函数的使用，将字典转化为字符串</span></span><br><span class="line">dict1 = &#123;<span class="string">"age"</span>: <span class="string">"12"</span>&#125;</span><br><span class="line">json_info = json.dumps(dict1)</span><br><span class="line">print(<span class="string">"dict1的类型："</span>+str(type(dict1)))  <span class="comment"># class &lt;dict&gt;</span></span><br><span class="line">print(<span class="string">"通过json.dumps()函数处理："</span>)</span><br><span class="line">print(<span class="string">"json_info的类型："</span>+str(type(json_info))) <span class="comment"># class &lt;str&gt;</span></span><br></pre></td></tr></table></figure>
