@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Gao Yongwei&#39;s Blog</title>
+  <title>json | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Siagao">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gao Yongwei&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="json 四个函数一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="json">
+<meta property="og:url" content="http://yoursite.com/2019/06/07/json/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="Siagao">
+<meta property="og:description" content="json 四个函数一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loa">
 <meta property="og:locale" content="English and Chinese">
+<meta property="og:updated_time" content="2019-06-07T05:34:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gao Yongwei&#39;s Blog">
-<meta name="twitter:description" content="Siagao">
+<meta name="twitter:title" content="json">
+<meta name="twitter:description" content="json 四个函数一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loa">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -157,16 +158,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-json" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-json" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/07/json/">json</a>
+    <h1 class="article-title" itemprop="name">
+      json
     </h1>
   
 
@@ -190,6 +189,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -197,16 +217,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/07/json/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/07/json/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/24/hexo模板搭建主页/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo工具辅助搭建自己的个人主页</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -226,201 +305,14 @@
 
 
 
-
   
-    <article id="post-hexo模板搭建主页" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/24/hexo模板搭建主页/">hexo工具辅助搭建自己的个人主页</a>
-    </h1>
   
 
-        
-        <a href="/2019/05/24/hexo模板搭建主页/" class="archive-article-date">
-  	<time datetime="2019-05-24T13:06:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Hexo是一个简单、快速、强大的基于 Github Pages 的博客发布工具，支持Markdown格式，有众多优秀插件和主题。</p>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>由于github pages存放的都是静态文件，博客存放的不只是文章内容，还有文章列表、分类、标签、翻页等动态内容，假如每次写完一篇文章都要手动更新博文目录和相关链接信息，相信谁都会疯掉，所以hexo所做的就是将这些md文件都放在本地，每次写完文章后调用写好的命令来批量完成相关页面的生成，然后再将有改动的页面提交到github。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>$ npm install -g hexo</p>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>在电脑的某个地方新建一个名为hexo的文件夹（名字可以随便取），比如我的是<code>F:\Workspaces\hexo</code>，由于这个文件夹将来就作为你存放代码的地方，所以最好不要随便放。</p>
-<hr>
-<p> cd  /f/Workspaces/hexo/<br>​ hexo init</p>
-<hr>
-<p>hexo会自动下载一些文件到这个目录，包括node_modules</p>
-<p>命令：</p>
-<p>hexo g 生成</p>
-<p>hexo s 启动服务</p>
-<p>执行以上命令之后，hexo就会在public文件夹生成相关html文件，这些文件将来都是要提交到github去的</p>
-<p><code>hexo s</code>是开启本地预览服务，打开浏览器访问 <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 即可看到内容，很多人会碰到浏览器一直在转圈但是就是加载不出来的问题，一般情况下是因为端口占用的缘故，因为4000这个端口太常见了，解决端口冲突问题请参考这篇文章：</p>
-<p><a href="http://blog.liuxianan.com/windows-port-bind.html" target="_blank" rel="noopener">http://blog.liuxianan.com/windows-port-bind.html</a></p>
-<p>第一次初始化的时候hexo已经帮我们写了一篇名为 Hello World 的文章，默认的主题比较丑，我们可以修改主题</p>
-<h1 id="修改主题"><a href="#修改主题" class="headerlink" title="修改主题"></a>修改主题</h1><p>既然默认主题很丑，那我们别的不做，首先来替换一个好看点的主题。这是 <a href="https://hexo.io/themes/" target="_blank" rel="noopener">官方主题</a>。</p>
-<p>个人比较喜欢的2个主题：<a href="https://github.com/pinggod/hexo-theme-jekyll" target="_blank" rel="noopener">hexo-theme-jekyll</a> 和 <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">hexo-theme-yilia</a>。</p>
-<p>首先下载这个主题：</p>
-<p>cd /f/Workspaces/hexo/<br>​git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia</p>
-<p>下载后的主题都在themes文件中</p>
-<h1 id="准备上传"><a href="#准备上传" class="headerlink" title="准备上传"></a>准备上传</h1><p>在上传代码到github之前，一定要记得先把你以前所有代码下载下来（虽然github有版本管理，但备份一下总是好的），因为从hexo提交代码时会把你以前的所有代码都删掉。</p>
-<h1 id="上传命令"><a href="#上传命令" class="headerlink" title="上传命令"></a>上传命令</h1><p>hexo d -g</p>
-<p>一行命令搞定</p>
-<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><p>hexo new “postName” #新建文章<br>hexo new page “pageName” #新建页面<br>hexo generate #生成静态页面至public目录<br>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）<br>hexo deploy #部署到GitHub<br>hexo help  # 查看帮助<br>hexo version  #查看Hexo的版本</p>
-<p>缩写：</p>
-<p>hexo n == hexo new<br>hexo g == hexo generate<br>hexo s == hexo server<br>hexo d == hexo deploy</p>
-<p>组合缩写：</p>
-<p>hexo s -g #生成并本地预览<br>hexo d -g #生成并上传</p>
-<h2 id="4-11-config-yml"><a href="#4-11-config-yml" class="headerlink" title="# 4.11. _config.yml"></a># 4.11. _config.yml</h2><p>这里面都是一些全局配置，每个参数的意思都比较简单明了，所以就不作详细介绍了。</p>
-<p>需要特别注意的地方是，冒号后面必须有一个空格，否则可能会出问题。</p>
-<h1 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h1><p>定位到我们的hexo根目录，执行命令：</p>
-<p>hexo new ‘my-first-blog’</p>
-<p>hexo会帮我们在<code>_posts</code>下生成相关md文件：</p>
-<p>我们只需要打开这个文件就可以开始写博客了，默认生成如下内容：</p>
-<p><strong>当然你也可以直接自己新建md文件，用这个命令的好处是帮我们自动生成了时间</strong></p>
-<p>本人入过一个坑 自己新建的md文件，没有titile，data， tag等信息，然后一直报错，如果hexo new 新建的默认会生成这些信息，否则自己还得补充</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/24/hexo模板搭建主页/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-域名+解析+github搭建网站" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/24/域名+解析+github搭建网站/">域名+解析+github搭建自己的个人主页</a>
-    </h1>
   
 
-        
-        <a href="/2019/05/24/域名+解析+github搭建网站/" class="archive-article-date">
-  	<time datetime="2019-05-24T10:06:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>必备：github账号一个   域名一个</p>
-<h2 id="第一步从github向域名做链接"><a href="#第一步从github向域名做链接" class="headerlink" title="第一步从github向域名做链接"></a>第一步从github向域名做链接</h2><p>1）首先在github中建立一个 username.github.io的库，只允许建立一个这样的库,其中username就是你github的用户名，也只能是你的username！<br>新建一个文件 名为CNAME 写入自己的域名地址 如  <a href="http://www.gaoyongwei.site" target="_blank" rel="noopener">www.gaoyongwei.site</a></p>
-<h2 id="第二步从域名向github做链接"><a href="#第二步从域名向github做链接" class="headerlink" title="第二步从域名向github做链接"></a>第二步从域名向github做链接</h2><p>配置阿里云域名，因为我购买的是阿里云的.site域名，所以以site举例</p>
-<p>2)进入阿里云控制台，进行解析域名，</p>
-<table>
-<thead>
-<tr>
-<th>记录值</th>
-<th style="text-align:right">主机记录</th>
-<th style="text-align:center">解析线路</th>
-<th style="text-align:center">记录值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CNAME</td>
-<td style="text-align:right">www</td>
-<td style="text-align:center">默认</td>
-<td style="text-align:center">siagaowei1990.github.io</td>
-</tr>
-</tbody>
-</table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/24/域名+解析+github搭建网站/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
+
   
 
 
@@ -443,8 +335,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
