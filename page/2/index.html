@@ -159,6 +159,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-json" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/07/json/">json四个函数</a>
+    </h1>
+  
+
+        
+        <a href="/2019/06/07/json/" class="archive-article-date">
+  	<time datetime="2019-06-07T05:28:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="json总结"><a href="#json总结" class="headerlink" title="json总结"></a>json总结</h1><p>一、概念理解</p>
+<p>1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）<br>　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）<br>　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函数是将字符串转化为字典）</p>
+<p>2、json.dump()和json.load()主要用来读写json文件函数</p>
+<h2 id="1-dumps"><a href="#1-dumps" class="headerlink" title="1. dumps"></a>1. dumps</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="comment"># json.dumps()函数的使用，将字典转化为字符串</span></span><br><span class="line">dict1 = &#123;<span class="string">"age"</span>: <span class="string">"12"</span>&#125;</span><br><span class="line">json_info = json.dumps(dict1)</span><br><span class="line">print(<span class="string">"dict1的类型："</span>+str(type(dict1)))  <span class="comment"># class &lt;dict&gt;</span></span><br><span class="line">print(<span class="string">"通过json.dumps()函数处理："</span>)</span><br><span class="line">print(<span class="string">"json_info的类型："</span>+str(type(json_info))) <span class="comment"># class &lt;str&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-loads"><a href="#2-loads" class="headerlink" title="2. loads"></a>2. loads</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="comment"># json.loads函数的使用，将字符串转化为字典</span></span><br><span class="line">json_info = <span class="string">'&#123;"age": "12"&#125;'</span></span><br><span class="line">dict1 = json.loads(json_info)</span><br><span class="line">print(<span class="string">"json_info的类型："</span>+str(type(json_info))) <span class="comment"># class &lt;str&gt;</span></span><br><span class="line">print(<span class="string">"通过json.dumps()函数处理："</span>)</span><br><span class="line">print(<span class="string">"dict1的类型："</span>+str(type(dict1))) <span class="comment"># class &lt;dict&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-dump"><a href="#3-dump" class="headerlink" title="3. dump"></a>3. dump</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json.dump()函数的使用，将json信息写进文件</span></span><br><span class="line">json_info = <span class="string">"&#123;'age': '12'&#125;"</span></span><br><span class="line">file = open(<span class="string">'1.json'</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">json.dump(json_info,file)</span><br></pre></td></tr></table></figure>
+<h2 id="4-load"><a href="#4-load" class="headerlink" title="4. load"></a>4. load</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json.load()函数的使用，将读取json信息</span></span><br><span class="line">file = open(<span class="string">'1.json'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">info = json.load(file)</span><br><span class="line">print(info)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">dumps，loads，jump，load</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/06/07/json/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hexo模板搭建主页" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -461,7 +541,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">click学习笔记</a>
+                <a href="javascript:void(0)" class="js-tag color2">sacred</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -469,7 +553,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color5">click学习笔记</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: dumps，loads，jump，load | Gao Yongwei&#39;s Blog</title>
+  <title>sacred之configuration | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Siagao">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gao Yongwei&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/tags/dumps，loads，jump，load/index.html">
+  <meta name="description" content="configuration方法是参数化运行的一个标准方法。 它保存每次运行的数据。 它有三种方式来为实验配置参数 定义一个Configurationsacred提供了多种方式来定义一个Experiment实验的configuration 最受欢迎的是Config Scope，当然，你也可以使用普通的字典。 config scope一个config scope 就是一个被@ex.config装饰了的">
+<meta name="keywords" content="sacred">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sacred之configuration">
+<meta property="og:url" content="http://yoursite.com/2019/07/24/configuration/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="Siagao">
+<meta property="og:description" content="configuration方法是参数化运行的一个标准方法。 它保存每次运行的数据。 它有三种方式来为实验配置参数 定义一个Configurationsacred提供了多种方式来定义一个Experiment实验的configuration 最受欢迎的是Config Scope，当然，你也可以使用普通的字典。 config scope一个config scope 就是一个被@ex.config装饰了的">
 <meta property="og:locale" content="English and Chinese">
+<meta property="og:updated_time" content="2019-07-24T03:44:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gao Yongwei&#39;s Blog">
-<meta name="twitter:description" content="Siagao">
+<meta name="twitter:title" content="sacred之configuration">
+<meta name="twitter:description" content="configuration方法是参数化运行的一个标准方法。 它保存每次运行的数据。 它有三种方式来为实验配置参数 定义一个Configurationsacred提供了多种方式来定义一个Experiment实验的configuration 最受欢迎的是Config Scope，当然，你也可以使用普通的字典。 config scope一个config scope 就是一个被@ex.config装饰了的">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -157,60 +159,202 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-configuration" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/07/json/" class="archive-article-date">
-  	<time datetime="2019-06-07T05:28:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/07/json/">json四个函数</a>
+    <h1 class="article-title" itemprop="name">
+      sacred之configuration
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/07/24/configuration/" class="archive-article-date">
+  	<time datetime="2019-07-24T02:22:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>configuration方法是参数化运行的一个标准方法。</p>
+<p>它保存每次运行的数据。</p>
+<p>它有三种方式来为实验配置参数</p>
+<h1 id="定义一个Configuration"><a href="#定义一个Configuration" class="headerlink" title="定义一个Configuration"></a>定义一个Configuration</h1><p>sacred提供了多种方式来定义一个Experiment实验的configuration</p>
+<p>最受欢迎的是Config Scope，当然，你也可以使用普通的字典。</p>
+<h2 id="config-scope"><a href="#config-scope" class="headerlink" title="config scope"></a>config scope</h2><p>一个config scope 就是一个被@ex.config装饰了的方法。在运行实验之前，sacred会首先运行它。所有的局部变量会被收集起来，变成实验的配置项。在这个被装饰的方法中，你可以配置和修改任何参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line">ex = Experiment(<span class="string">'config_demo'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    foo = &#123;<span class="string">'b'</span>: a**<span class="number">2</span>, <span class="string">'c'</span>:<span class="string">'my age is %s'</span>%a&#125;</span><br><span class="line">    <span class="keyword">if</span> a &gt; <span class="number">8</span>:</span><br><span class="line">       d = a/<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.main</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">   <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p><strong>用作config scope的方法不能有返回值或者yield</strong></p>
+<p><strong>配置项可以直接通过ex.add_config方法添加</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ex.add_config(&#123;<span class="string">'a1'</span>:<span class="number">12</span>, <span class="string">'b1'</span>:<span class="number">13</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">#等价于</span></span><br><span class="line"></span><br><span class="line">ex.add_config(&#123;a1 = <span class="number">12</span>, b1 = <span class="number">13</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>你也可以从一个文件中来添加配置项</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ex.add_config(&apos;conf.json&apos;)</span><br><span class="line">ex.add_config(&apos;conf.pickle&apos;)</span><br><span class="line">ex.add_config(&apos;conf.yaml&apos;)</span><br></pre></td></tr></table></figure>
+<h2 id="合并多个Configurations"><a href="#合并多个Configurations" class="headerlink" title="合并多个Configurations"></a>合并多个Configurations</h2><p>你可能在同一个Experiment中有多个config scope。他们将按照声明的顺序执行。这非常适合修改参数的默认值。在config scope中，你可以获取该config scope之前的已经申明过得配置项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ex = Experiment(<span class="string">'multiple_configs_demo'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config1</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    b = <span class="string">'test'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config2</span><span class="params">(a)</span>:</span> <span class="comment">#这里以a为参数</span></span><br><span class="line">    c = a*<span class="number">2</span></span><br><span class="line">    a = <span class="number">-1</span>  <span class="comment">#  a 被重写了</span></span><br><span class="line"></span><br><span class="line">ex.add_config(&#123;<span class="string">'e'</span>: <span class="string">'from dict'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>结果是</p>
+<blockquote>
+<p>{‘a’: -1,   ‘b’: ‘test’,  ‘c’: 20, ‘e’:  ‘from dict’}</p>
+</blockquote>
+<h1 id="更新配置项"><a href="#更新配置项" class="headerlink" title="更新配置项"></a>更新配置项</h1><p>当实验正在进行的时候，配置项可能会被一个更新字典更新。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line"></span><br><span class="line">ex = Experiment(<span class="string">'config_demo'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    foo = &#123;</span><br><span class="line">    <span class="string">'a1'</span>: a**<span class="number">2</span>, </span><br><span class="line">    <span class="string">'a2'</span>: <span class="string">'a changes into %s'</span>%a</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> a &gt; <span class="number">8</span>:</span><br><span class="line">       e = a/<span class="number">2</span></span><br><span class="line"><span class="meta">@ex.main</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果我们运行实验通过config_updates字典</span></span><br><span class="line">r = ex.run(config_updates=&#123;<span class="string">'a'</span>:<span class="number">23</span>&#125;)</span><br><span class="line">print(r.config)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 我们也可以固定字典的值</span></span><br><span class="line">r = ex.run(config_updates=&#123;<span class="string">'foo'</span>: &#123;<span class="string">'a1'</span>: a**<span class="number">3</span>&#125;&#125;)</span><br><span class="line">print(r.config)</span><br></pre></td></tr></table></figure>
+<h1 id="Named-Configurations"><a href="#Named-Configurations" class="headerlink" title="Named Configurations"></a>Named Configurations</h1><p>所谓的named configurations就是，提供一个config scope </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line"></span><br><span class="line">ex = Experiment(<span class="string">'named_config_demo'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    b = <span class="number">3</span> * a</span><br><span class="line">    c = <span class="string">'fox'</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">@ex.named_config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">variant1</span><span class="params">()</span>:</span>    </span><br><span class="line">    a = <span class="number">100</span></span><br><span class="line">    b = <span class="string">'bar'</span></span><br></pre></td></tr></table></figure>
+<p>实验默认的配置项是{‘a’: 10,  ‘b’: 3 * a,  ‘c’: ‘fox’}</p>
+<p>如果运行一下语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$python named_configs_demo.py <span class="keyword">with</span> variant1</span><br><span class="line"></span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line"></span><br><span class="line">ex.run(named_configs=[<span class="string">'variant1'</span>])</span><br><span class="line">print(r.config)</span><br><span class="line"><span class="comment"># &#123;'a': 100, 'b': 300, 'c': 'bar', 'seed': 804588296&#125;</span></span><br></pre></td></tr></table></figure>
+<p>我们可以发现，configuration变了，注意，named_config Scope先运行，他的值会被固定。</p>
+<p>另外，我们可以同时定义多个named_config scopes, 这些named_config scopes会在config scope之前运行，并且后面的named_config scopes会重写前面的named_config scopes，然后被固定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line"></span><br><span class="line">ex = Experiment(<span class="string">'named_config_demo'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    b = <span class="number">3</span> * a</span><br><span class="line">    c = <span class="string">'fox'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.named_config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">variant1</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">100</span></span><br><span class="line">    c = <span class="string">'bar'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.named_config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">variant2</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">300</span></span><br><span class="line">    c = <span class="string">'barbarbar'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.main</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">r= ex.run(named_configs=[<span class="string">'variant1'</span>])</span><br><span class="line">print(r.config)</span><br><span class="line"></span><br><span class="line">r1= ex.run(named_configs=[<span class="string">'variant1'</span>, <span class="string">'variant2'</span>])</span><br><span class="line">print(r1.config)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印的结果是：</span></span><br><span class="line">/Library/Frameworks/Python.framework/Versions/<span class="number">3.7</span>/bin/python3 /Users/gaowei/PycharmProjects/study/musdb/configuration.py</span><br><span class="line">WARNING - named_config_demo - No observers have been added to this run</span><br><span class="line">INFO - named_config_demo - Running command <span class="string">'run'</span></span><br><span class="line">INFO - named_config_demo - Started</span><br><span class="line">INFO - named_config_demo - Completed after <span class="number">0</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line">&#123;<span class="string">'a'</span>: <span class="number">100</span>, <span class="string">'b'</span>: <span class="number">300</span>, <span class="string">'c'</span>: <span class="string">'bar'</span>, <span class="string">'seed'</span>: <span class="number">13130611</span>&#125;</span><br><span class="line">WARNING - named_config_demo - No observers have been added to this run</span><br><span class="line">INFO - named_config_demo - Running command <span class="string">'run'</span></span><br><span class="line">INFO - named_config_demo - Started</span><br><span class="line">INFO - named_config_demo - Completed after <span class="number">0</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line">&#123;<span class="string">'a'</span>: <span class="number">300</span>, <span class="string">'b'</span>: <span class="number">900</span>, <span class="string">'c'</span>: <span class="string">'barbarbar'</span>, <span class="string">'seed'</span>: <span class="number">284233179</span>&#125;</span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>另外，named config也可以接收字典文件传来的配置项</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ex.run(named_configs=[<span class="string">'my_variant.json'</span>])</span><br></pre></td></tr></table></figure>
+<h1 id="获取配置项"><a href="#获取配置项" class="headerlink" title="获取配置项"></a>获取配置项</h1><p>一旦你配置好参数，接下来就是代码实现怎么使用它们。sacred自动填充capture 方法中缺失的但默认有的参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line"></span><br><span class="line">ex = Experiment(<span class="string">'named_config_demo'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    a = <span class="number">10</span></span><br><span class="line">    b = <span class="number">3</span> * a</span><br><span class="line">    c = <span class="string">'fox'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.capture</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_a_and_b</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    print(<span class="string">'a= '</span>, a)</span><br><span class="line">    print(<span class="string">'b= '</span>, b)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.automain</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    print_a_and_b()  <span class="comment"># 这里没有给参数，也没有报错，原因是sacred自动填补了缺失的参数</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment">#打印结果：</span></span><br><span class="line">WARNING - named_config_demo - No observers have been added to this run</span><br><span class="line">INFO - named_config_demo - Running command <span class="string">'run'</span></span><br><span class="line">INFO - named_config_demo - Started</span><br><span class="line">a=  <span class="number">10</span></span><br><span class="line">b=  <span class="number">30</span></span><br><span class="line">INFO - named_config_demo - Completed after <span class="number">0</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line"></span><br><span class="line">Process finished <span class="keyword">with</span> exit code <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>另外，还可以为capture方法重写参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ex.automain</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    print_a_and_b()      <span class="comment"># 10, 30</span></span><br><span class="line">    print_a_and_b(<span class="number">3</span>)     <span class="comment"># 3, 30</span></span><br><span class="line">    print_a_and_b(<span class="number">3</span>, <span class="string">'foo'</span>)  <span class="comment"># 3, foo</span></span><br><span class="line">    print_a_and_b(b=<span class="string">'foo'</span>)   <span class="comment"># 10, foo</span></span><br></pre></td></tr></table></figure>
+<p>其实，所有的@ex.main， @ex.automain，以及@ex.command都是captured 方法。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">dumps，loads，jump，load</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">sacred</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/24/configuration/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/07/24/Sacred/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Sacred 深度学习实验管理工具</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -233,9 +377,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
