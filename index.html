@@ -159,6 +159,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-多进程和多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/24/多进程和多线程/">多进程和多线程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/24/多进程和多线程/" class="archive-article-date">
+  	<time datetime="2019-07-24T13:45:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先举个多进程结合Queue的例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">(q)</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">       res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   q.put(res)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   p1 = mp.Process(target=job, args=(q,)) <span class="comment"># **注意这里是一个参数的时候，记得加逗号**</span></span><br><span class="line">   p2 = mp.Process(target=job, args=(q,))</span><br><span class="line">   p1.start()</span><br><span class="line">   p2.start()</span><br><span class="line">   </span><br><span class="line">   p1.join()</span><br><span class="line">   p2.join()</span><br><span class="line">   </span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(res1+res2)</span><br></pre></td></tr></table></figure>
+<h1 id="效率比对-threading-和-multiprocessing"><a href="#效率比对-threading-和-multiprocessing" class="headerlink" title="效率比对 threading 和 multiprocessing"></a>效率比对 threading 和 multiprocessing</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing <span class="keyword">as</span> mp</span><br><span class="line"><span class="keyword">import</span> threading <span class="keyword">as</span> td</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">(q)</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000000</span>):</span><br><span class="line">       res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   q.put(res)</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multicore</span><span class="params">()</span>:</span></span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   p1 = mp.Process(target=job, args=(q,)) <span class="comment"># **注意这里是一个参数的时候，记得加逗号**</span></span><br><span class="line">   p2 = mp.Process(target=job, args=(q,))</span><br><span class="line">   p1.start()</span><br><span class="line">   p2.start()</span><br><span class="line">   </span><br><span class="line">   p1.join()</span><br><span class="line">   p2.join()</span><br><span class="line">   </span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(res1+res2)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normal</span><span class="params">()</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000000</span>):</span><br><span class="line">          res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   print(<span class="string">'normal:'</span>, res)</span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multithread</span><span class="params">()</span>:</span></span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   t1 = td.Thread(target=job, args=(q,))</span><br><span class="line">   t2 = td.Thread(target=job, args=(q,))</span><br><span class="line">   t1.start()</span><br><span class="line">   t2.start()</span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(<span class="string">'multithreads: '</span>, res1+res2)</span><br><span class="line">   </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   st = time.time()</span><br><span class="line">   normal()</span><br><span class="line">   st1 = time.time()</span><br><span class="line">   print(<span class="string">'normal time: '</span>, st1-st)</span><br><span class="line">   </span><br><span class="line">   multithread()</span><br><span class="line">   st2 = time.time()</span><br><span class="line">   print(<span class="string">'multithread time: '</span>, st2-st1)</span><br><span class="line">   </span><br><span class="line">   multicore()</span><br><span class="line">   st3 = time.time()</span><br><span class="line">   print(<span class="string">'multicore time: '</span>, st3-st2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">normal: <span class="number">4999999666666716666660000000</span></span><br><span class="line">normal time: <span class="number">19.20045</span> </span><br><span class="line">multithreads:  <span class="number">4999999666666716666660000000</span></span><br><span class="line">multithread time: <span class="number">18.48799</span> <span class="comment"># 多线程和正常的比较没有多少优势</span></span><br><span class="line">multicores:  <span class="number">4999999666666716666660000000</span></span><br><span class="line">multicore time: <span class="number">12.34211</span>  <span class="comment">#多进程最快</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，多核/多进程最快。说明在同事间运行了多个任务，而多线程却不一定会比正常情况快，这和多线程中的GIL有关。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">多进程和多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/24/多进程和多线程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-multiprocessing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1017,101 +1095,6 @@
 
 
   
-    <article id="post-linux环境变量设置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/18/linux环境变量设置/">linux环境变量设置</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/18/linux环境变量设置/" class="archive-article-date">
-  	<time datetime="2019-07-18T12:55:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><p>环境变量有很多种类一般有2种划分形式按变量的周期划分</p>
-<p><strong>1. 永久变量</strong>：</p>
-<p>通过修改配置文件，配置之后变量永久生效</p>
-<p>一般有<strong>用户级别的变量设置</strong>，和<strong>全局系统级别设置</strong>。</p>
-<p><strong>第一种：修改用户变量</strong>    linux下每个用户宿主目录下都有一个 <strong>~/.bash_profile</strong>文件，里面记录直接加到文件里面，最后面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export path=$path:/path1:/path2</span><br></pre></td></tr></table></figure>
-<p><strong>第二种：全局变量，系统环境变量</strong>   linux支持多用户多任务，如果要让所有用户都采用相同的变量设置。<strong>修改/etc/profile文件，通过vi或vim增加变量</strong></p>
-<p><strong>2. 临时性变量</strong>：</p>
-<p> 使用命令如export等命令设置，设置之后马上生效。当关闭shell的时候失效（这种主要用于测试比较多）</p>
-<p><strong>常见的设置方法是通过命令</strong></p>
-<p><strong>export指定</strong>linux最常见的就是lamp配置，指定软件运行路径为例。</p>
-<p>例如</p>
-<p>比如指定php 或mysql执行的路径变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@mail ~]#export PATH=$PATH:/usr/local/php/bin  为php环境</span><br><span class="line"></span><br><span class="line">[root@mail ~]#export PATH=$PATH:/usr/local/mysql/bin 为mysql环境</span><br></pre></td></tr></table></figure>
-<p>如果设置多个可以采用格式</p>
-<p><strong>[root@mail ~]#export PATH=$PATH:/usr/local/mysql/bin</strong>;</p>
-<h1 id="更新，立即生效"><a href="#更新，立即生效" class="headerlink" title="更新，立即生效"></a>更新，立即生效</h1><p>修改变量之后，需要马上生效变量设置。可执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@mail ~]source /etc/profile</span><br></pre></td></tr></table></figure>
-<h1 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h1><p><strong>[root@mail ~]#echo $PATH</strong></p>
-<h1 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h1><p>1）设置path路径的时候，千万不要设置当前目录./加到变量里面。容易出现不可估量的错误和问题。</p>
-<p>2）另外加入路径的时候不要用相对路径，<strong>用绝对路径</strong>。</p>
-<p>3）<strong>如果遇到需要写入变量的时候，可以先用set 或者 export设置临时变量来确定，没有问题再写入变量脚本文件里面。</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">linux环境变量设置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/18/linux环境变量设置/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1213,11 +1196,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
+                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
+                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1250,6 +1233,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">python包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多进程和多线程</a>
               </li>
             
             <div class="clearfix"></div>

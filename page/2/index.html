@@ -159,6 +159,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linux环境变量设置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/18/linux环境变量设置/">linux环境变量设置</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/18/linux环境变量设置/" class="archive-article-date">
+  	<time datetime="2019-07-18T12:55:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><p>环境变量有很多种类一般有2种划分形式按变量的周期划分</p>
+<p><strong>1. 永久变量</strong>：</p>
+<p>通过修改配置文件，配置之后变量永久生效</p>
+<p>一般有<strong>用户级别的变量设置</strong>，和<strong>全局系统级别设置</strong>。</p>
+<p><strong>第一种：修改用户变量</strong>    linux下每个用户宿主目录下都有一个 <strong>~/.bash_profile</strong>文件，里面记录直接加到文件里面，最后面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export path=$path:/path1:/path2</span><br></pre></td></tr></table></figure>
+<p><strong>第二种：全局变量，系统环境变量</strong>   linux支持多用户多任务，如果要让所有用户都采用相同的变量设置。<strong>修改/etc/profile文件，通过vi或vim增加变量</strong></p>
+<p><strong>2. 临时性变量</strong>：</p>
+<p> 使用命令如export等命令设置，设置之后马上生效。当关闭shell的时候失效（这种主要用于测试比较多）</p>
+<p><strong>常见的设置方法是通过命令</strong></p>
+<p><strong>export指定</strong>linux最常见的就是lamp配置，指定软件运行路径为例。</p>
+<p>例如</p>
+<p>比如指定php 或mysql执行的路径变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@mail ~]#export PATH=$PATH:/usr/local/php/bin  为php环境</span><br><span class="line"></span><br><span class="line">[root@mail ~]#export PATH=$PATH:/usr/local/mysql/bin 为mysql环境</span><br></pre></td></tr></table></figure>
+<p>如果设置多个可以采用格式</p>
+<p><strong>[root@mail ~]#export PATH=$PATH:/usr/local/mysql/bin</strong>;</p>
+<h1 id="更新，立即生效"><a href="#更新，立即生效" class="headerlink" title="更新，立即生效"></a>更新，立即生效</h1><p>修改变量之后，需要马上生效变量设置。可执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@mail ~]source /etc/profile</span><br></pre></td></tr></table></figure>
+<h1 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h1><p><strong>[root@mail ~]#echo $PATH</strong></p>
+<h1 id="经验"><a href="#经验" class="headerlink" title="经验"></a>经验</h1><p>1）设置path路径的时候，千万不要设置当前目录./加到变量里面。容易出现不可估量的错误和问题。</p>
+<p>2）另外加入路径的时候不要用相对路径，<strong>用绝对路径</strong>。</p>
+<p>3）<strong>如果遇到需要写入变量的时候，可以先用set 或者 export设置临时变量来确定，没有问题再写入变量脚本文件里面。</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">linux环境变量设置</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/18/linux环境变量设置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-linux干货" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -864,11 +959,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
+                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
+                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -901,6 +996,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">python包</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">多进程和多线程</a>
               </li>
             
             <div class="clearfix"></div>
