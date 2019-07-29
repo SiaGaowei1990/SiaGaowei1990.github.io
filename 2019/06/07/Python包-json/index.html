@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>多进程和多线程对比 | Gao Yongwei&#39;s Blog</title>
+  <title>json四个函数 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先举个多进程结合Queue的例子 123456789101112131415161718192021import multiprocessing as mpdef job(q):   res = 0   for i in range(1000):       res += i+i**2+i**3   q.put(res)if __name__ == &apos;__main__&apos;:   q = mp.Qu">
-<meta name="keywords" content="多进程和多线程">
+  <meta name="description" content="json总结一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
+<meta name="keywords" content="dumps，loads，jump，load">
 <meta property="og:type" content="article">
-<meta property="og:title" content="多进程和多线程对比">
-<meta property="og:url" content="http://yoursite.com/2019/07/24/多进程和多线程对比/index.html">
+<meta property="og:title" content="json四个函数">
+<meta property="og:url" content="http://yoursite.com/2019/06/07/Python包-json/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="首先举个多进程结合Queue的例子 123456789101112131415161718192021import multiprocessing as mpdef job(q):   res = 0   for i in range(1000):       res += i+i**2+i**3   q.put(res)if __name__ == &apos;__main__&apos;:   q = mp.Qu">
+<meta property="og:description" content="json总结一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
 <meta property="og:locale" content="English and Chinese">
-<meta property="og:updated_time" content="2019-07-24T14:11:09.000Z">
+<meta property="og:updated_time" content="2019-06-07T05:41:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="多进程和多线程对比">
-<meta name="twitter:description" content="首先举个多进程结合Queue的例子 123456789101112131415161718192021import multiprocessing as mpdef job(q):   res = 0   for i in range(1000):       res += i+i**2+i**3   q.put(res)if __name__ == &apos;__main__&apos;:   q = mp.Qu">
+<meta name="twitter:title" content="json四个函数">
+<meta name="twitter:description" content="json总结一、概念理解 1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads(">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -159,31 +159,33 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-多进程和多线程对比" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Python包-json" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      多进程和多线程对比
+      json四个函数
     </h1>
   
 
         
-        <a href="/2019/07/24/多进程和多线程对比/" class="archive-article-date">
-  	<time datetime="2019-07-24T13:45:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+        <a href="/2019/06/07/Python包-json/" class="archive-article-date">
+  	<time datetime="2019-06-07T05:28:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先举个多进程结合Queue的例子</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing <span class="keyword">as</span> mp</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">(q)</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">       res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   q.put(res)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   p1 = mp.Process(target=job, args=(q,)) <span class="comment"># **注意这里是一个参数的时候，记得加逗号**</span></span><br><span class="line">   p2 = mp.Process(target=job, args=(q,))</span><br><span class="line">   p1.start()</span><br><span class="line">   p2.start()</span><br><span class="line">   </span><br><span class="line">   p1.join()</span><br><span class="line">   p2.join()</span><br><span class="line">   </span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(res1+res2)</span><br></pre></td></tr></table></figure>
-<h1 id="效率比对-threading-和-multiprocessing"><a href="#效率比对-threading-和-multiprocessing" class="headerlink" title="效率比对 threading 和 multiprocessing"></a>效率比对 threading 和 multiprocessing</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing <span class="keyword">as</span> mp</span><br><span class="line"><span class="keyword">import</span> threading <span class="keyword">as</span> td</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">job</span><span class="params">(q)</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000000</span>):</span><br><span class="line">       res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   q.put(res)</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multicore</span><span class="params">()</span>:</span></span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   p1 = mp.Process(target=job, args=(q,)) <span class="comment"># **注意这里是一个参数的时候，记得加逗号**</span></span><br><span class="line">   p2 = mp.Process(target=job, args=(q,))</span><br><span class="line">   p1.start()</span><br><span class="line">   p2.start()</span><br><span class="line">   </span><br><span class="line">   p1.join()</span><br><span class="line">   p2.join()</span><br><span class="line">   </span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(res1+res2)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normal</span><span class="params">()</span>:</span></span><br><span class="line">   res = <span class="number">0</span></span><br><span class="line">   <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000000</span>):</span><br><span class="line">          res += i+i**<span class="number">2</span>+i**<span class="number">3</span></span><br><span class="line">   print(<span class="string">'normal:'</span>, res)</span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multithread</span><span class="params">()</span>:</span></span><br><span class="line">   q = mp.Queue()</span><br><span class="line">   t1 = td.Thread(target=job, args=(q,))</span><br><span class="line">   t2 = td.Thread(target=job, args=(q,))</span><br><span class="line">   t1.start()</span><br><span class="line">   t2.start()</span><br><span class="line">   res1 = q.get()</span><br><span class="line">   res2 = q.get()</span><br><span class="line">   print(<span class="string">'multithreads: '</span>, res1+res2)</span><br><span class="line">   </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   st = time.time()</span><br><span class="line">   normal()</span><br><span class="line">   st1 = time.time()</span><br><span class="line">   print(<span class="string">'normal time: '</span>, st1-st)</span><br><span class="line">   </span><br><span class="line">   multithread()</span><br><span class="line">   st2 = time.time()</span><br><span class="line">   print(<span class="string">'multithread time: '</span>, st2-st1)</span><br><span class="line">   </span><br><span class="line">   multicore()</span><br><span class="line">   st3 = time.time()</span><br><span class="line">   print(<span class="string">'multicore time: '</span>, st3-st2)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">normal: <span class="number">4999999666666716666660000000</span></span><br><span class="line">normal time: <span class="number">19.20045</span> </span><br><span class="line">multithreads:  <span class="number">4999999666666716666660000000</span></span><br><span class="line">multithread time: <span class="number">18.48799</span> <span class="comment"># 多线程和正常的比较没有多少优势</span></span><br><span class="line">multicores:  <span class="number">4999999666666716666660000000</span></span><br><span class="line">multicore time: <span class="number">12.34211</span>  <span class="comment">#多进程最快</span></span><br></pre></td></tr></table></figure>
-<p>可以看出，多核/多进程最快。说明在同事间运行了多个任务，而多线程却不一定会比正常情况快，这和多线程中的GIL有关。</p>
+        <h1 id="json总结"><a href="#json总结" class="headerlink" title="json总结"></a>json总结</h1><p>一、概念理解</p>
+<p>1、json.dumps()和json.loads()是json格式处理函数（可以这么理解，json是字符串）<br>　　(1)json.dumps()函数是将一个Python数据类型列表进行json格式的编码（可以这么理解，json.dumps()函数是将字典转化为字符串）<br>　　(2)json.loads()函数是将json格式数据转换为字典（可以这么理解，json.loads()函数是将字符串转化为字典）</p>
+<p>2、json.dump()和json.load()主要用来读写json文件函数</p>
+<h2 id="1-dumps"><a href="#1-dumps" class="headerlink" title="1. dumps"></a>1. dumps</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="comment"># json.dumps()函数的使用，将字典转化为字符串</span></span><br><span class="line">dict1 = &#123;<span class="string">"age"</span>: <span class="string">"12"</span>&#125;</span><br><span class="line">json_info = json.dumps(dict1)</span><br><span class="line">print(<span class="string">"dict1的类型："</span>+str(type(dict1)))  <span class="comment"># class &lt;dict&gt;</span></span><br><span class="line">print(<span class="string">"通过json.dumps()函数处理："</span>)</span><br><span class="line">print(<span class="string">"json_info的类型："</span>+str(type(json_info))) <span class="comment"># class &lt;str&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-loads"><a href="#2-loads" class="headerlink" title="2. loads"></a>2. loads</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"> </span><br><span class="line"><span class="comment"># json.loads函数的使用，将字符串转化为字典</span></span><br><span class="line">json_info = <span class="string">'&#123;"age": "12"&#125;'</span></span><br><span class="line">dict1 = json.loads(json_info)</span><br><span class="line">print(<span class="string">"json_info的类型："</span>+str(type(json_info))) <span class="comment"># class &lt;str&gt;</span></span><br><span class="line">print(<span class="string">"通过json.dumps()函数处理："</span>)</span><br><span class="line">print(<span class="string">"dict1的类型："</span>+str(type(dict1))) <span class="comment"># class &lt;dict&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-dump"><a href="#3-dump" class="headerlink" title="3. dump"></a>3. dump</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json.dump()函数的使用，将json信息写进文件</span></span><br><span class="line">json_info = <span class="string">"&#123;'age': '12'&#125;"</span></span><br><span class="line">file = open(<span class="string">'1.json'</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">json.dump(json_info,file)</span><br></pre></td></tr></table></figure>
+<h2 id="4-load"><a href="#4-load" class="headerlink" title="4. load"></a>4. load</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json.load()函数的使用，将读取json信息</span></span><br><span class="line">file = open(<span class="string">'1.json'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">info = json.load(file)</span><br><span class="line">print(info)</span><br></pre></td></tr></table></figure>
 
       
 
@@ -218,7 +220,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">多进程和多线程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">dumps，loads，jump，load</a>
         		</li>
       		
 		</ul>
@@ -274,7 +276,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/24/多进程和多线程对比/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/07/Python包-json/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -288,18 +290,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/29/TF-Dataset读取数据/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/18/Python包-pescador/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          TF.Dataset读取数据
+          pescador
         
       </div>
     </a>
   
   
-    <a href="/2019/07/24/Python包-multiprocessing/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">multiprocessing多进程之join方法</div>
+    <a href="/2019/05/24/hexo模板搭建主页/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo工具辅助搭建自己的个人主页</div>
       <i class="icon-circle-right"></i>
     </a>
   
