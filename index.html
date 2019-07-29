@@ -159,19 +159,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-TF两种迭代器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-TF-两种迭代器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/29/TF两种迭代器/">TF两种迭代器</a>
+      <a class="article-title" href="/2019/07/29/TF-两种迭代器/">TF两种迭代器</a>
     </h1>
   
 
         
-        <a href="/2019/07/29/TF两种迭代器/" class="archive-article-date">
+        <a href="/2019/07/29/TF-两种迭代器/" class="archive-article-date">
   	<time datetime="2019-07-29T11:21:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
 </a>
         
@@ -181,7 +181,11 @@
       
         <p>dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。</p>
 <p>本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.repeat()<span class="comment">##make_one_shot_iterator必须加这句</span></span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##生成batch的两种方法</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"><span class="comment">##第一种</span></span><br><span class="line"><span class="comment">##one_shot iterator就是该迭代器只会将对应的数据消费一次，消费完抛OutOfRangeError，通过外部包一层##try-catch来捕获该异常</span></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator()</span></span><br><span class="line"><span class="comment"># data_op = data_iterator.get_next()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.compat.v1.Session() as sess:</span></span><br><span class="line"><span class="comment">#   # sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         n = sess.run(data_op)</span></span><br><span class="line"><span class="comment">#         print(n[1])</span></span><br><span class="line"><span class="comment">#     #   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#         sess.run(data_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##第二种initializable iterator在one_shot的基础上可以多次使用该iterator，但是每次消费完数据集后，需##要重新初始化，简单来说，实现了单个iterator下单个dataset中填充数据的切换。</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      _, labels = iterator.get_next()</span><br><span class="line">      labels = sess.run(labels)</span><br><span class="line">      print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, labels))</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">      sess.run(init_op)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line">    images[i] = image</span><br><span class="line">    labels[i] = label</span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##生成batch的两种方法</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line">data = data.repeat()<span class="comment">##make_one_shot_iterator必须加这句</span></span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"><span class="comment">##第一种</span></span><br><span class="line"><span class="comment">##one_shot iterator就是该迭代器只会将对应的数据消费一次，消费完抛OutOfRangeError，通过外部包一层##try-catch来捕获该异常</span></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator()</span></span><br><span class="line"><span class="comment"># data_op = data_iterator.get_next()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.compat.v1.Session() as sess:</span></span><br><span class="line"><span class="comment">#   # sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         n = sess.run(data_op)</span></span><br><span class="line"><span class="comment">#         print(n[1])</span></span><br><span class="line"><span class="comment">#     #   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#         sess.run(data_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##第二种initializable iterator在one_shot的基础上可以多次使用该iterator，但是每次消费完数据集后，需##要重新初始化，简单来说，实现了单个iterator下单个dataset中填充数据的切换。</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      _, labels = iterator.get_next()</span><br><span class="line">      labels = sess.run(labels)</span><br><span class="line">      print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, labels))</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">      sess.run(init_op)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br></pre></td></tr></table></figure>
+<h1 id="shuffle、repeat、batch三者之间的关系"><a href="#shuffle、repeat、batch三者之间的关系" class="headerlink" title="shuffle、repeat、batch三者之间的关系"></a>shuffle、repeat、batch三者之间的关系</h1><p>官方网站上，阐述了 repeat 在 shuffle 之前使用可以有效提高性能，但是模糊了数据样本的 epoch </p>
+<p>实际上，可以这样理解shuffle取之前已经重置了源数据集， </p>
+<p>即先repeat，后shuffle。tf会将数据集乘以repeat次数，然后整个打乱一次，把它当作一个数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</span><br><span class="line">dataset = dataset.batch(<span class="number">32</span>) </span><br><span class="line">dataset = dataset.repeat(num_epochs)</span><br></pre></td></tr></table></figure>
       
 
       
@@ -204,7 +208,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/29/TF两种迭代器/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/29/TF-两种迭代器/">展开全文 >></a>
         </p>
       
 
@@ -267,7 +271,7 @@
 <h2 id="第二种-tf-data-Dataset"><a href="#第二种-tf-data-Dataset" class="headerlink" title="第二种 tf.data.Dataset"></a>第二种 tf.data.Dataset</h2><p>在tf 1.x版本之后，逐渐开发引入了tf.data.Dataset模块，使其数据读入的操作变得更为方便，并且支持多线程操作。</p>
 <p>在tensorflow建立模型进行训练的时候，可以很容易生成这样的文件来表示数据：</p>
 <blockquote>
-<p>路径， 标签</p>
+<p>Train.csv</p>
 <ol>
 <li>data/01.jpg， 猫</li>
 <li>data/02.jpg， 狗</li>
@@ -288,12 +292,14 @@
 <p>第六行，构建一个初始化op</p>
 <p>随后便可在session对话中，尽心初始化操作，并且可以通过iterator函数逐批得到数据，并进行使用。</p>
 <p>需要注意的是 iterator中的元素取完之后，会抛出OutofRangeError异常，Tensorflow没有对异常进行处理，我们需要对齐进行捕捉和处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 完整demo</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line">    images[i] = image</span><br><span class="line">    labels[i] = label</span><br><span class="line"></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line">data = data.repeat()</span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data_iterator = data.make_one_shot_iterator()</span><br><span class="line">data_op = data_iterator.get_next()</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.compat.v1.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  <span class="comment"># sess.run(init_op)</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        n = sess.run(data_op)</span><br><span class="line">        print(n[<span class="number">1</span>])</span><br><span class="line">    <span class="comment">#   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">        print(<span class="string">'running out of data'</span>)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br><span class="line"></span><br><span class="line"><span class="comment"># iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span></span><br><span class="line"><span class="comment"># init_op = iterator.make_initializer(data)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.Session() as sess:</span></span><br><span class="line"><span class="comment">#   sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#       _, labels = iterator.get_next()</span></span><br><span class="line"><span class="comment">#       labels = sess.run(labels)</span></span><br><span class="line"><span class="comment">#       print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#       sess.run(init_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br></pre></td></tr></table></figure>
 <h3 id="2-利用generator分批导入"><a href="#2-利用generator分批导入" class="headerlink" title="2) 利用generator分批导入"></a>2) 利用generator分批导入</h3><p>建立一个读入数据的generator，然后使用tf.data.Dataset对其进行包装转换，即可实现batch读入数据的目的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'train.cvs'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readline()]</span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> true:</span><br><span class="line">         image = cv2.imread(lines[index][<span class="number">0</span>])</span><br><span class="line">         image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line">         label = lines[index][<span class="number">1</span>]</span><br><span class="line">         <span class="keyword">yield</span> (image, label)</span><br><span class="line">         index += <span class="number">1</span></span><br><span class="line">         <span class="keyword">if</span> index == len(lines):</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dataset</span><span class="params">()</span>:</span></span><br><span class="line">    data = tf.data.Dataset.from_generator(gen, (tf.float32, tf.int32), (tf.TensorShape([<span class="number">224</span>,<span class="number">224</span>,<span class="number">3</span>]), tf.tensorShape([])))</span><br><span class="line">    data = data.batch(<span class="number">2</span>)</span><br><span class="line">    data = data.meke_one_shot_iterator()</span><br><span class="line">    _, labels = data.get_next()</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             getlabels = sess.run(labels)</span><br><span class="line">             print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, getlabels))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">   create_dataset()</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   main()</span><br></pre></td></tr></table></figure>
+<p><strong>最大的好处就是可以使用你python方式进行文本的预处理，而不用想方设法找tf中的对应函数。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>: <span class="number">0</span>, <span class="string">'狗'</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lines = [line.rstrip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        image = cv2.imread(lines[index][<span class="number">0</span>])</span><br><span class="line">        image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line">        label = label_map[lines[index][<span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> (image, label)</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> index == len(lines):</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dataset</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 这里是通过一个永无尽头的generator构建的Dataset，</span></span><br><span class="line">    <span class="comment"># 所以其可以一直取数据，而不会出现1中所述的OutOfRange的问题</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># tf.data.Dataset.from_generator有三个参数</span></span><br><span class="line">    <span class="comment"># 1. 迭代函数（yield()）</span></span><br><span class="line">    <span class="comment"># 2. 输出的数据类型 output_types=</span></span><br><span class="line">    <span class="comment"># 3. 输出的数据形状 output_shapes=</span></span><br><span class="line"></span><br><span class="line">    data = tf.data.Dataset.from_generator(</span><br><span class="line">        gen, output_types=(tf.float32, tf.int32), output_shapes=(tf.TensorShape([<span class="number">224</span>,<span class="number">224</span>,<span class="number">3</span>]), tf.TensorShape([])))</span><br><span class="line">    data = data.batch(<span class="number">2</span>)</span><br><span class="line">    data = data.make_one_shot_iterator()</span><br><span class="line">    </span><br><span class="line">    tt = time.time()</span><br><span class="line">    _, labels = data.get_next()</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">            getlabels = sess.run(labels)</span><br><span class="line">            print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, getlabels))</span><br><span class="line">        print(time.time() - tt)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">  create_dataset()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">  main()</span><br></pre></td></tr></table></figure>
 <h3 id="3-基于tensor操作构建Dataset"><a href="#3-基于tensor操作构建Dataset" class="headerlink" title="3)基于tensor操作构建Dataset"></a>3)基于tensor操作构建Dataset</h3><p>1）必须全部导入内存</p>
 <p>2）使用generator逐batch读入数据，但是读取速度较慢</p>
 <p>3）我们通过使用tf提供的tensor操作来读取数据，并基于此来构建Dataset</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>：<span class="number">0</span>， <span class="string">'狗'</span>：<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">     lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(filename, label)</span>:</span></span><br><span class="line">    image_string = tf.read_file(filename)</span><br><span class="line">    image_decoded = tf.image.decode_jpeg(image_string, channel=<span class="number">3</span>)</span><br><span class="line">    image = tf.cast(image_decoded, tf.float32)</span><br><span class="line">    </span><br><span class="line">    image = tf.image.resize_images(image, [<span class="number">224</span>, <span class="number">224</span>])</span><br><span class="line">    <span class="keyword">return</span> image, filename, label</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">training_preprocess</span><span class="params">(image, filename, label)</span>:</span></span><br><span class="line">    flip_name = tf.image.random_flip_left_right(image)</span><br><span class="line">    <span class="keyword">return</span> flip_image, file_name, label</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">images = []</span><br><span class="line">labels = []</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">  images.append(line[<span class="number">0</span>])</span><br><span class="line">  labels.append(label_map[line[<span class="number">1</span>]])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">images = tf.constant(images)</span><br><span class="line">labels = tf.constant(labels)</span><br><span class="line">images = tf.shuffle(images, seed=<span class="number">0</span>)</span><br><span class="line">labels = tf.shuffle(labels, seed=<span class="number">0</span>)</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line"></span><br><span class="line">data = data.map(_parse_function, num_parallel_calls=<span class="number">4</span>)</span><br><span class="line">data = data.prefetch(buffer_size = <span class="number">2</span>*<span class="number">10</span>)</span><br><span class="line">batched_data = data.batch(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">iterator = tf.data.Iterator.from_structure(batched_data.output_types, batched_data.output_shapes)</span><br><span class="line"></span><br><span class="line">init_op = iterator.make_initializer(batched_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">     sess.run(init_op)</span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             <span class="keyword">try</span>:</span><br><span class="line">                images, filenames, labels = iterator.get_next()</span><br><span class="line">                print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, sess.run(labels)))</span><br><span class="line">             <span class="keyword">except</span> tf.errors.OutOfRangeError():</span><br><span class="line">                sess.run(init_op)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(filename, label)</span>:</span></span><br><span class="line">    <span class="comment"># 用tf的方法来处理数据</span></span><br><span class="line">    image_string = tf.read_file(filename)</span><br><span class="line">    image_decoded = tf.image.decode_jpeg(image_string, channels=<span class="number">3</span>)  <span class="comment"># (1)</span></span><br><span class="line">    image = tf.cast(image_decoded, tf.float32)</span><br><span class="line"></span><br><span class="line">    image = tf.image.resize_images(image, [<span class="number">224</span>, <span class="number">224</span>])</span><br><span class="line">    <span class="keyword">return</span> image, filename, label</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>: <span class="number">0</span>, <span class="string">'狗'</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">  lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">images = []</span><br><span class="line">labels = []</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">  images.append(line[<span class="number">0</span>])</span><br><span class="line">  labels.append(label_map[line[<span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = tf.constant(images)</span><br><span class="line">labels = tf.constant(labels)</span><br><span class="line">images = tf.random_shuffle(images, seed=<span class="number">0</span>)</span><br><span class="line">labels = tf.random_shuffle(labels, seed=<span class="number">0</span>)</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line"></span><br><span class="line">data = data.map(_parse_function, num_parallel_calls=<span class="number">4</span>)</span><br><span class="line">data = data.prefetch(buffer_size = <span class="number">2</span>*<span class="number">10</span>)</span><br><span class="line">batched_data = data.batch(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator() # 此时不可以使用</span></span><br><span class="line"><span class="comment"># 因为报错ValueError: Failed to create a one-shot iterator for a dataset.</span></span><br><span class="line"><span class="comment"># `Dataset.make_one_shot_iterator()` does not support datasets</span></span><br><span class="line"><span class="comment"># that capture stateful objects, such as a `Variable` or `LookupTable`.</span></span><br><span class="line"><span class="comment"># In these cases, use `Dataset.make_initializable_iterator()`.</span></span><br><span class="line"><span class="comment"># (Original error: Cannot capture a stateful node (name:RandomShuffle, type:RandomShuffle) by value.)</span></span><br><span class="line"></span><br><span class="line">iterator = tf.data.Iterator.from_structure(batched_data.output_types, batched_data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(batched_data)</span><br><span class="line">_, filename, labels = iterator.get_next()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, sess.run(labels)))</span><br><span class="line">        <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">            sess.run(init_op)</span><br></pre></td></tr></table></figure>
 
       
 
@@ -425,19 +431,19 @@
 
 
   
-    <article id="post-multiprocessing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Python包-multiprocessing" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/multiprocessing/">multiprocessing多进程之join方法</a>
+      <a class="article-title" href="/2019/07/24/Python包-multiprocessing/">multiprocessing多进程之join方法</a>
     </h1>
   
 
         
-        <a href="/2019/07/24/multiprocessing/" class="archive-article-date">
+        <a href="/2019/07/24/Python包-multiprocessing/" class="archive-article-date">
   	<time datetime="2019-07-24T13:14:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
 </a>
         
@@ -483,7 +489,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/multiprocessing/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/24/Python包-multiprocessing/">展开全文 >></a>
         </p>
       
 
@@ -513,19 +519,19 @@
 
 
   
-    <article id="post-command-line" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Python包-Sacred之command-line" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/command-line/">command_line</a>
+      <a class="article-title" href="/2019/07/24/Python包-Sacred之command-line/">command_line</a>
     </h1>
   
 
         
-        <a href="/2019/07/24/command-line/" class="archive-article-date">
+        <a href="/2019/07/24/Python包-Sacred之command-line/" class="archive-article-date">
   	<time datetime="2019-07-24T05:39:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
 </a>
         
@@ -577,7 +583,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/command-line/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/24/Python包-Sacred之command-line/">展开全文 >></a>
         </p>
       
 
@@ -607,19 +613,19 @@
 
 
   
-    <article id="post-Ingredient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Python包-Sacred之Ingredient" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/Ingredient/">Ingredient</a>
+      <a class="article-title" href="/2019/07/24/Python包-Sacred之Ingredient/">Ingredient</a>
     </h1>
   
 
         
-        <a href="/2019/07/24/Ingredient/" class="archive-article-date">
+        <a href="/2019/07/24/Python包-Sacred之Ingredient/" class="archive-article-date">
   	<time datetime="2019-07-24T03:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
 </a>
         
@@ -663,7 +669,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/Ingredient/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/24/Python包-Sacred之Ingredient/">展开全文 >></a>
         </p>
       
 
@@ -693,19 +699,19 @@
 
 
   
-    <article id="post-configuration" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Python包-Sacred之configuration" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/configuration/">sacred之configuration</a>
+      <a class="article-title" href="/2019/07/24/Python包-Sacred之configuration/">sacred之configuration</a>
     </h1>
   
 
         
-        <a href="/2019/07/24/configuration/" class="archive-article-date">
+        <a href="/2019/07/24/Python包-Sacred之configuration/" class="archive-article-date">
   	<time datetime="2019-07-24T02:22:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
 </a>
         
@@ -772,7 +778,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/configuration/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/24/Python包-Sacred之configuration/">展开全文 >></a>
         </p>
       
 
@@ -802,19 +808,19 @@
 
 
   
-    <article id="post-Sacred" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Python包-Sacred" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/Sacred/">Sacred 深度学习实验管理工具</a>
+      <a class="article-title" href="/2019/07/24/Python包-Sacred/">Sacred 深度学习实验管理工具</a>
     </h1>
   
 
         
-        <a href="/2019/07/24/Sacred/" class="archive-article-date">
+        <a href="/2019/07/24/Python包-Sacred/" class="archive-article-date">
   	<time datetime="2019-07-24T01:20:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
 </a>
         
@@ -864,7 +870,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/Sacred/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/24/Python包-Sacred/">展开全文 >></a>
         </p>
       
 
@@ -894,19 +900,19 @@
 
 
   
-    <article id="post-TFRecord-Dataset" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-TF-TFRecord-Dataset" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/TFRecord-Dataset/">TFRecord+Dataset</a>
+      <a class="article-title" href="/2019/07/23/TF-TFRecord-Dataset/">TFRecord+Dataset</a>
     </h1>
   
 
         
-        <a href="/2019/07/23/TFRecord-Dataset/" class="archive-article-date">
+        <a href="/2019/07/23/TF-TFRecord-Dataset/" class="archive-article-date">
   	<time datetime="2019-07-23T09:11:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
 </a>
         
@@ -915,6 +921,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>#TFRecord 和 Dataset进行数据的写入和读取</p>
+<h2 id="1-为什么用TFRecord"><a href="#1-为什么用TFRecord" class="headerlink" title="1 为什么用TFRecord"></a>1 为什么用TFRecord</h2><p>正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。</p>
+<p>TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大型训练数据。并且，当我们的训练数据量很大的时候，可以将数据分为多个TFRecord文件，来提高效率。</p>
 <p>好处：</p>
 <p>1）原来使用placeholder的话还要每次feed_dict一下，使用TFRecord+Dataset的时候直接就把数据读入操作当做图中的一个节点，就不用每次都feed了。</p>
 <p>2）可以方便和Estimator进行对接</p>
@@ -996,7 +1004,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/TFRecord-Dataset/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/23/TF-TFRecord-Dataset/">展开全文 >></a>
         </p>
       
 
@@ -1026,19 +1034,19 @@
 
 
   
-    <article id="post-TFRecord" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-TF-TFRecord的一个例子" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/TFRecord/">TFRecord</a>
+      <a class="article-title" href="/2019/07/23/TF-TFRecord的一个例子/">TFRecord</a>
     </h1>
   
 
         
-        <a href="/2019/07/23/TFRecord/" class="archive-article-date">
+        <a href="/2019/07/23/TF-TFRecord的一个例子/" class="archive-article-date">
   	<time datetime="2019-07-23T08:22:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
 </a>
         
@@ -1082,7 +1090,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/TFRecord/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/23/TF-TFRecord的一个例子/">展开全文 >></a>
         </p>
       
 

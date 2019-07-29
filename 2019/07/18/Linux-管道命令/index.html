@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Sacred 深度学习实验管理工具 | Gao Yongwei&#39;s Blog</title>
+  <title>管道命令 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#深度学习实验管理 Experiment是Sacred框架的一个核心类。 创建一个Experiment创建一个Experiment，仅仅需要实例化它，并且增加一个main方法 1234567from sacred import Experimentex = Experiment() # 实例化#增加一个main方法@ex.maindef my_main():    pass 被装饰器@ex.mai">
-<meta name="keywords" content="experiments">
+  <meta name="description" content="管道命令：连接多个linux命令符号：| 12命令1 | 命令2 将命令1连接到命令2 上 grep命令：字符串搜索格式：grep 需要搜索的字符串 搜索的文件 参数：-i 忽略大小写查找数据 返回关键字所在行 例：grep class Dem.java 返回结果：public class Dem{ 通常情况下，grep命令要与其他命令一起连用，例如管道命令 例：查询当前目录下所有带t 关键字的行">
+<meta name="keywords" content="linux命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Sacred 深度学习实验管理工具">
-<meta property="og:url" content="http://yoursite.com/2019/07/24/Sacred/index.html">
+<meta property="og:title" content="管道命令">
+<meta property="og:url" content="http://yoursite.com/2019/07/18/Linux-管道命令/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="#深度学习实验管理 Experiment是Sacred框架的一个核心类。 创建一个Experiment创建一个Experiment，仅仅需要实例化它，并且增加一个main方法 1234567from sacred import Experimentex = Experiment() # 实例化#增加一个main方法@ex.maindef my_main():    pass 被装饰器@ex.mai">
+<meta property="og:description" content="管道命令：连接多个linux命令符号：| 12命令1 | 命令2 将命令1连接到命令2 上 grep命令：字符串搜索格式：grep 需要搜索的字符串 搜索的文件 参数：-i 忽略大小写查找数据 返回关键字所在行 例：grep class Dem.java 返回结果：public class Dem{ 通常情况下，grep命令要与其他命令一起连用，例如管道命令 例：查询当前目录下所有带t 关键字的行">
 <meta property="og:locale" content="English and Chinese">
-<meta property="og:updated_time" content="2019-07-24T02:02:40.000Z">
+<meta property="og:updated_time" content="2019-07-18T13:43:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sacred 深度学习实验管理工具">
-<meta name="twitter:description" content="#深度学习实验管理 Experiment是Sacred框架的一个核心类。 创建一个Experiment创建一个Experiment，仅仅需要实例化它，并且增加一个main方法 1234567from sacred import Experimentex = Experiment() # 实例化#增加一个main方法@ex.maindef my_main():    pass 被装饰器@ex.mai">
+<meta name="twitter:title" content="管道命令">
+<meta name="twitter:description" content="管道命令：连接多个linux命令符号：| 12命令1 | 命令2 将命令1连接到命令2 上 grep命令：字符串搜索格式：grep 需要搜索的字符串 搜索的文件 参数：-i 忽略大小写查找数据 返回关键字所在行 例：grep class Dem.java 返回结果：public class Dem{ 通常情况下，grep命令要与其他命令一起连用，例如管道命令 例：查询当前目录下所有带t 关键字的行">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -159,45 +159,37 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Sacred" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Linux-管道命令" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Sacred 深度学习实验管理工具
+      管道命令
     </h1>
   
 
         
-        <a href="/2019/07/24/Sacred/" class="archive-article-date">
-  	<time datetime="2019-07-24T01:20:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+        <a href="/2019/07/18/Linux-管道命令/" class="archive-article-date">
+  	<time datetime="2019-07-18T13:40:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#深度学习实验管理</p>
-<p>Experiment是Sacred框架的一个核心类。</p>
-<h2 id="创建一个Experiment"><a href="#创建一个Experiment" class="headerlink" title="创建一个Experiment"></a>创建一个Experiment</h2><p>创建一个Experiment，仅仅需要实例化它，并且增加一个main方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line">ex = Experiment() <span class="comment"># 实例化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#增加一个main方法</span></span><br><span class="line"><span class="meta">@ex.main</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<p>被装饰器@ex.main修饰的my_main方法是实验的主方法，如果运行实验，就需要运行它。并且他也用来决定实验的源文件。</p>
-<p>相比较@ex.main装饰器，我们更推荐用@ex.automain。后者会在你运行该文件的时候，自动运行。和下面这段程序等价。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line">ex = Experiment() <span class="comment"># 实例化</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#增加一个main方法</span></span><br><span class="line"><span class="meta">@ex.main</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_main</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   ex.run_commandline()</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong> 运行的automain方法必须位于文件的最后。否则它之后的代码在运行实验的时候会被忽视。</p>
-<h1 id="运行Experiment"><a href="#运行Experiment" class="headerlink" title="运行Experiment"></a>运行Experiment</h1><p>运行Experiment最简单的方法是采用<strong>命令行</strong>的方式。</p>
-<p>你也可以通过python运行。这个特别适用于你想要运行它多次并且每次都具有不同config参数的情况。</p>
-<p>设你的实验在my_experiment.py文件中，然后你可以import它，运行它。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> my_experiment <span class="keyword">import</span> ex</span><br><span class="line"></span><br><span class="line">r = ex.run()</span><br></pre></td></tr></table></figure>
-<p>run方法接受config_updates，它用来具体化，对于这次运行，配置参数如何变化。</p>
-<p>config_updates必须是字典形式。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> my_experiment <span class="keyword">import</span> ex</span><br><span class="line">r = ex.run(config_updates=&#123;<span class="string">'foo'</span>:<span class="number">23</span>&#125;)</span><br></pre></td></tr></table></figure>
-<h1 id="configuration"><a href="#configuration" class="headerlink" title="configuration"></a>configuration</h1><p>有很多方式为你的实验增加configuration。最简单的方式是通过config scopes</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">   foo = <span class="number">42</span></span><br><span class="line">   bar = <span class="string">'baz'</span></span><br></pre></td></tr></table></figure>
-<h1 id="Capture-functions"><a href="#Capture-functions" class="headerlink" title="Capture functions"></a>Capture functions</h1><p>为了能够使用配置参数，你必须去做的是 capture一个函数，并且接收配置参数作为一个参数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sacred <span class="keyword">import</span> Experiment</span><br><span class="line">ex = Experiment(<span class="string">'my_experiment'</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.config</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_config</span><span class="params">()</span>:</span></span><br><span class="line">    foo = <span class="number">42</span></span><br><span class="line">    bar = <span class="string">'baz'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ex.capture</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">some_function</span><span class="params">(a, foo, bar=<span class="number">10</span>)</span></span></span><br><span class="line"><span class="function">    <span class="title">print</span><span class="params">(a, foo, bar)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">@<span class="title">ex</span>.<span class="title">main</span></span></span><br><span class="line"><span class="function"><span class="title">def</span> <span class="title">my_main</span><span class="params">()</span>:</span></span><br><span class="line">    some_function(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)     <span class="comment"># 1  2   3</span></span><br><span class="line">    some_function(<span class="number">1</span>)           <span class="comment"># 1  42 'baz'</span></span><br><span class="line">    some_fucntion(<span class="number">1</span>, bar=<span class="number">12</span>)   <span class="comment"># 1  42  12</span></span><br><span class="line">    some_function()            <span class="comment"># typeError: missing value for 'a'</span></span><br></pre></td></tr></table></figure>
+        <h1 id="管道命令："><a href="#管道命令：" class="headerlink" title="管道命令："></a>管道命令：</h1><p>连接多个linux命令<br>符号：|</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">命令1 | 命令2 </span><br><span class="line">将命令1连接到命令2 上</span><br></pre></td></tr></table></figure>
+<h1 id="grep命令："><a href="#grep命令：" class="headerlink" title="grep命令："></a>grep命令：</h1><p>字符串搜索<br>格式：grep 需要搜索的字符串 搜索的文件</p>
+<p>参数：-i 忽略大小写查找数据</p>
+<p>返回关键字所在行</p>
+<p>例：grep class Dem.java</p>
+<p>返回结果：public class Dem{</p>
+<p>通常情况下，grep命令要与其他命令一起连用，例如管道命令</p>
+<p>例：查询当前目录下所有带t 关键字的行数据</p>
+<p>命令： ll | grep t</p>
+<p><strong>总结：管道|通常会与grep一起使用</strong></p>
 
       
 
@@ -232,7 +224,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">experiments</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linux命令</a>
         		</li>
       		
 		</ul>
@@ -288,7 +280,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/24/Sacred/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/Linux-管道命令/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -302,18 +294,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/24/configuration/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/07/23/TF-TFRecord的一个例子/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          sacred之configuration
+          TFRecord
         
       </div>
     </a>
   
   
-    <a href="/2019/07/23/TFRecord-Dataset/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">TFRecord+Dataset</div>
+    <a href="/2019/07/18/Linux-echo命令/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">echo命令</div>
       <i class="icon-circle-right"></i>
     </a>
   

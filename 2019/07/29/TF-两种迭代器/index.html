@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>TFRecord | Gao Yongwei&#39;s Blog</title>
+  <title>TF两种迭代器 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TFRecord 生成和读取1 为什么用TFRecord正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。 TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大">
+  <meta name="description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
 <meta name="keywords" content="tensorflow">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TFRecord">
-<meta property="og:url" content="http://yoursite.com/2019/07/23/TFRecord/index.html">
+<meta property="og:title" content="TF两种迭代器">
+<meta property="og:url" content="http://yoursite.com/2019/07/29/TF-两种迭代器/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="TFRecord 生成和读取1 为什么用TFRecord正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。 TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大">
+<meta property="og:description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
 <meta property="og:locale" content="English and Chinese">
-<meta property="og:updated_time" content="2019-07-23T09:10:11.000Z">
+<meta property="og:updated_time" content="2019-07-29T12:54:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TFRecord">
-<meta name="twitter:description" content="TFRecord 生成和读取1 为什么用TFRecord正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。 TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大">
+<meta name="twitter:title" content="TF两种迭代器">
+<meta name="twitter:description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -159,40 +159,33 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-TFRecord" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-TF-两种迭代器" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      TFRecord
+      TF两种迭代器
     </h1>
   
 
         
-        <a href="/2019/07/23/TFRecord/" class="archive-article-date">
-  	<time datetime="2019-07-23T08:22:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
+        <a href="/2019/07/29/TF-两种迭代器/" class="archive-article-date">
+  	<time datetime="2019-07-29T11:21:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="TFRecord-生成和读取"><a href="#TFRecord-生成和读取" class="headerlink" title="TFRecord 生成和读取"></a>TFRecord 生成和读取</h1><h2 id="1-为什么用TFRecord"><a href="#1-为什么用TFRecord" class="headerlink" title="1 为什么用TFRecord"></a>1 为什么用TFRecord</h2><p>正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。</p>
-<p>TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大型训练数据。并且，当我们的训练数据量很大的时候，可以将数据分为多个TFRecord文件，来提高效率。</p>
-<h2 id="2-生成TFRecord简单实现方式"><a href="#2-生成TFRecord简单实现方式" class="headerlink" title="2 生成TFRecord简单实现方式"></a>2 生成TFRecord简单实现方式</h2><p>我们分两部分来介绍如何生成TFRecord，分别是：TFRecord生成器以及样本Example模块</p>
-<p>1）TFRecord生成器</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">writer = tf.python_io.TFRecordWriter(record_path) </span><br><span class="line"><span class="comment"># writer 是一个生成器</span></span><br><span class="line">writer.write(tf.example.SerializeToString()) </span><br><span class="line"><span class="comment"># write来生成TFRecord文件，这里的tf.example.SerializeToString()是将Example中的map压缩为二进制文件，更好的节省空间。</span></span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure>
-<p>2）Example模块</p>
-<p>首先我们来看一下Example协议块什么样子的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">message Example&#123;</span><br><span class="line">  Features features= <span class="number">1</span>；</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Features&#123;</span><br><span class="line"> map&lt;string, Feature&gt;feature=<span class="number">1</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">message Features&#123;</span><br><span class="line">  oneof kind &#123;</span><br><span class="line">    BytesList bytes_list = <span class="number">1</span>;</span><br><span class="line">    FloatList float_list = <span class="number">2</span>;</span><br><span class="line">    Int64List int64_list = <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以看出上面的tf_example可以写入的数据形式有三种，分别是BytesList，FloatList，和Int64List三种类型。那如何写一个tf_example的例子呢？</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">int64_feature</span><span class="params">(value)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bytes_feature</span><span class="params">(value)</span>:</span></span><br><span class="line">  <span class="keyword">return</span> tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))</span><br><span class="line"></span><br><span class="line">tf_example = tf.train.Example(</span><br><span class="line">          features=tf.train.Features(feature=&#123;</span><br><span class="line">            <span class="string">'image/encoded'</span>: bytes_feature(encoded_jpg),</span><br><span class="line">            <span class="string">'image/format'</span>: bytes_feature(<span class="string">'jpg'</span>.encode()),</span><br><span class="line">            <span class="string">'image/class/label'</span>: int64_feature(label)</span><br><span class="line">            <span class="string">'image/height'</span>: int64_feature(height)</span><br><span class="line">            <span class="string">'image/width'</span>: int64_feature(width)</span><br><span class="line">          &#125;))</span><br></pre></td></tr></table></figure>
-<p>解释上面这段程序：</p>
-<p>1）tf.train.Example(features = None) 这里的features是tf.train.Features类型的特征实例</p>
-<p>2）tf.train.Features(features = None) 这里的features是以字典形式存在，*key： 要保存数据的名字；value：要保存的数据，但是格式必须要符合tf.train.Features实例要求。</p>
-
+        <p>dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。</p>
+<p>本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line">    images[i] = image</span><br><span class="line">    labels[i] = label</span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##生成batch的两种方法</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line">data = data.repeat()<span class="comment">##make_one_shot_iterator必须加这句</span></span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"><span class="comment">##第一种</span></span><br><span class="line"><span class="comment">##one_shot iterator就是该迭代器只会将对应的数据消费一次，消费完抛OutOfRangeError，通过外部包一层##try-catch来捕获该异常</span></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator()</span></span><br><span class="line"><span class="comment"># data_op = data_iterator.get_next()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.compat.v1.Session() as sess:</span></span><br><span class="line"><span class="comment">#   # sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         n = sess.run(data_op)</span></span><br><span class="line"><span class="comment">#         print(n[1])</span></span><br><span class="line"><span class="comment">#     #   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#         sess.run(data_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##第二种initializable iterator在one_shot的基础上可以多次使用该iterator，但是每次消费完数据集后，需##要重新初始化，简单来说，实现了单个iterator下单个dataset中填充数据的切换。</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      _, labels = iterator.get_next()</span><br><span class="line">      labels = sess.run(labels)</span><br><span class="line">      print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, labels))</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">      sess.run(init_op)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br></pre></td></tr></table></figure>
+<h1 id="shuffle、repeat、batch三者之间的关系"><a href="#shuffle、repeat、batch三者之间的关系" class="headerlink" title="shuffle、repeat、batch三者之间的关系"></a>shuffle、repeat、batch三者之间的关系</h1><p>官方网站上，阐述了 repeat 在 shuffle 之前使用可以有效提高性能，但是模糊了数据样本的 epoch </p>
+<p>实际上，可以这样理解shuffle取之前已经重置了源数据集， </p>
+<p>即先repeat，后shuffle。tf会将数据集乘以repeat次数，然后整个打乱一次，把它当作一个数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = dataset.shuffle(buffer_size=<span class="number">10000</span>)</span><br><span class="line">dataset = dataset.batch(<span class="number">32</span>) </span><br><span class="line">dataset = dataset.repeat(num_epochs)</span><br></pre></td></tr></table></figure>
       
 
       
@@ -282,7 +275,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/23/TFRecord/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/29/TF-两种迭代器/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -296,18 +289,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/23/TFRecord-Dataset/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          TFRecord+Dataset
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/18/管道命令/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">管道命令</div>
+    <a href="/2019/07/29/TF-Dataset读取数据/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TF.Dataset读取数据</div>
       <i class="icon-circle-right"></i>
     </a>
   
