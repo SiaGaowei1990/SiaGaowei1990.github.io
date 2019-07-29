@@ -6,18 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Gao Yongwei&#39;s Blog</title>
+  <title>TF.Dataset读取数据 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Siagao">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gao Yongwei&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="#使用Dataset读取数据的方法 在使用TF构建网路进行训练的时候，如何读取数据并将数据恰当地送进模型，是一个首先需要考虑的问题。 第一种  placeholder + feed 建立placeholder  使用feed_dict将数据feed进placeholder进行使用。   简单，但是需要一下子将所有的数据读入内存，然后分batch进行feed； 也可以进一步改进，建立一个python">
+<meta name="keywords" content="tensorflow, datasets">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TF.Dataset读取数据">
+<meta property="og:url" content="http://yoursite.com/2019/07/29/TF-Dataset读取数据/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="Siagao">
+<meta property="og:description" content="#使用Dataset读取数据的方法 在使用TF构建网路进行训练的时候，如何读取数据并将数据恰当地送进模型，是一个首先需要考虑的问题。 第一种  placeholder + feed 建立placeholder  使用feed_dict将数据feed进placeholder进行使用。   简单，但是需要一下子将所有的数据读入内存，然后分batch进行feed； 也可以进一步改进，建立一个python">
 <meta property="og:locale" content="English and Chinese">
+<meta property="og:updated_time" content="2019-07-29T07:24:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gao Yongwei&#39;s Blog">
-<meta name="twitter:description" content="Siagao">
+<meta name="twitter:title" content="TF.Dataset读取数据">
+<meta name="twitter:description" content="#使用Dataset读取数据的方法 在使用TF构建网路进行训练的时候，如何读取数据并将数据恰当地送进模型，是一个首先需要考虑的问题。 第一种  placeholder + feed 建立placeholder  使用feed_dict将数据feed进placeholder进行使用。   简单，但是需要一下子将所有的数据读入内存，然后分batch进行feed； 也可以进一步改进，建立一个python">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -157,36 +159,95 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-TF-Dataset读取数据" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/29/TF-Dataset读取数据/" class="archive-article-date">
-  	<time datetime="2019-07-29T06:11:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/29/TF-Dataset读取数据/">TF.Dataset读取数据</a>
+    <h1 class="article-title" itemprop="name">
+      TF.Dataset读取数据
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/07/29/TF-Dataset读取数据/" class="archive-article-date">
+  	<time datetime="2019-07-29T06:11:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#使用Dataset读取数据的方法</p>
+<p>在使用TF构建网路进行训练的时候，如何读取数据并将数据恰当地送进模型，是一个首先需要考虑的问题。</p>
+<h2 id="第一种-placeholder-feed"><a href="#第一种-placeholder-feed" class="headerlink" title="第一种  placeholder + feed"></a>第一种  placeholder + feed</h2><ol>
+<li><p>建立placeholder</p>
+</li>
+<li><p>使用feed_dict将数据feed进placeholder进行使用。</p>
+</li>
+</ol>
+<p>简单，但是需要一下子将所有的数据读入内存，然后分batch进行feed；</p>
+<p>也可以进一步改进，建立一个python的generator, 一个batch一个batch地将数据读入。并feed进placeholder。</p>
+<h2 id="第二种-tf-data-Dataset"><a href="#第二种-tf-data-Dataset" class="headerlink" title="第二种 tf.data.Dataset"></a>第二种 tf.data.Dataset</h2><p>在tf 1.x版本之后，逐渐开发引入了tf.data.Dataset模块，使其数据读入的操作变得更为方便，并且支持多线程操作。</p>
+<p>在tensorflow建立模型进行训练的时候，可以很容易生成这样的文件来表示数据：</p>
+<blockquote>
+<p>路径， 标签</p>
+<ol>
+<li>data/01.jpg， 猫</li>
+<li>data/02.jpg， 狗</li>
+<li>data/03.jpg， 猫</li>
+<li>data/04.jpg， 狗</li>
+<li>data/05.jpg， 猫</li>
+<li>data/06.jpg， 猫</li>
+</ol>
+</blockquote>
+<h3 id="1-一次性全部导入再分批"><a href="#1-一次性全部导入再分批" class="headerlink" title="1) 一次性全部导入再分批"></a>1) 一次性全部导入再分批</h3><ol>
+<li><p>首先将数据读入内存，然后使用tf.data.Dataset构建数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">image = ...</span><br><span class="line">labels = ...</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.batch(batch_size)</span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types, data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">       images, labels = iterator.get_next()</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutofRangeError:</span><br><span class="line">       sess.run(init_op)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>第一行和第二行，将数据images和labels读入内存</p>
+<p>第三行和第四行，构建Dataset，并设置Dataset的batch大小</p>
+<p>第五行，构建一个iterator</p>
+<p>第六行，构建一个初始化op</p>
+<p>随后便可在session对话中，尽心初始化操作，并且可以通过iterator函数逐批得到数据，并进行使用。</p>
+<p>需要注意的是 iterator中的元素取完之后，会抛出OutofRangeError异常，Tensorflow没有对异常进行处理，我们需要对齐进行捕捉和处理</p>
+<h3 id="2-利用generator分批导入"><a href="#2-利用generator分批导入" class="headerlink" title="2) 利用generator分批导入"></a>2) 利用generator分批导入</h3><p>建立一个读入数据的generator，然后使用tf.data.Dataset对其进行包装转换，即可实现batch读入数据的目的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'train.cvs'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readline()]</span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> true:</span><br><span class="line">         image = cv2.imread(lines[index][<span class="number">0</span>])</span><br><span class="line">         image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line">         label = lines[index][<span class="number">1</span>]</span><br><span class="line">         <span class="keyword">yield</span> (image, label)</span><br><span class="line">         index += <span class="number">1</span></span><br><span class="line">         <span class="keyword">if</span> index == len(lines):</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dataset</span><span class="params">()</span>:</span></span><br><span class="line">    data = tf.data.Dataset.from_generator(gen, (tf.float32, tf.int32), (tf.TensorShape([<span class="number">224</span>,<span class="number">224</span>,<span class="number">3</span>]), tf.tensorShape([])))</span><br><span class="line">    data = data.batch(<span class="number">2</span>)</span><br><span class="line">    data = data.meke_one_shot_iterator()</span><br><span class="line">    _, labels = data.get_next()</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             getlabels = sess.run(labels)</span><br><span class="line">             print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, getlabels))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">   create_dataset()</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   main()</span><br></pre></td></tr></table></figure>
+<h3 id="3-基于tensor操作构建Dataset"><a href="#3-基于tensor操作构建Dataset" class="headerlink" title="3)基于tensor操作构建Dataset"></a>3)基于tensor操作构建Dataset</h3><p>1）必须全部导入内存</p>
+<p>2）使用generator逐batch读入数据，但是读取速度较慢</p>
+<p>3）我们通过使用tf提供的tensor操作来读取数据，并基于此来构建Dataset</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>：<span class="number">0</span>， <span class="string">'狗'</span>：<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">     lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(filename, label)</span>:</span></span><br><span class="line">    image_string = tf.read_file(filename)</span><br><span class="line">    image_decoded = tf.image.decode_jpeg(image_string, channel=<span class="number">3</span>)</span><br><span class="line">    image = tf.cast(image_decoded, tf.float32)</span><br><span class="line">    </span><br><span class="line">    image = tf.image.resize_images(image, [<span class="number">224</span>, <span class="number">224</span>])</span><br><span class="line">    <span class="keyword">return</span> image, filename, label</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">training_preprocess</span><span class="params">(image, filename, label)</span>:</span></span><br><span class="line">    flip_name = tf.image.random_flip_left_right(image)</span><br><span class="line">    <span class="keyword">return</span> flip_image, file_name, label</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">images = []</span><br><span class="line">labels = []</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">  images.append(line[<span class="number">0</span>])</span><br><span class="line">  labels.append(label_map[line[<span class="number">1</span>]])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">images = tf.constant(images)</span><br><span class="line">labels = tf.constant(labels)</span><br><span class="line">images = tf.shuffle(images, seed=<span class="number">0</span>)</span><br><span class="line">labels = tf.shuffle(labels, seed=<span class="number">0</span>)</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line"></span><br><span class="line">data = data.map(_parse_function, num_parallel_calls=<span class="number">4</span>)</span><br><span class="line">data = data.prefetch(buffer_size = <span class="number">2</span>*<span class="number">10</span>)</span><br><span class="line">batched_data = data.batch(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">iterator = tf.data.Iterator.from_structure(batched_data.output_types, batched_data.output_shapes)</span><br><span class="line"></span><br><span class="line">init_op = iterator.make_initializer(batched_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">     sess.run(init_op)</span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             <span class="keyword">try</span>:</span><br><span class="line">                images, filenames, labels = iterator.get_next()</span><br><span class="line">                print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, sess.run(labels)))</span><br><span class="line">             <span class="keyword">except</span> tf.errors.OutOfRangeError():</span><br><span class="line">                sess.run(init_op)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -198,364 +259,105 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/29/TF-Dataset读取数据/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/多进程和多线程对比/" class="archive-article-date">
-  	<time datetime="2019-07-24T13:45:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/24/多进程和多线程对比/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">多进程和多线程对比</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/多进程和多线程对比/">多进程和多线程对比</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">多进程和多线程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/multiprocessing/" class="archive-article-date">
-  	<time datetime="2019-07-24T13:14:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/multiprocessing/">multiprocessing多进程之join方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多进程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/command-line/" class="archive-article-date">
-  	<time datetime="2019-07-24T05:39:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/command-line/">command_line</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">sacred</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/Ingredient/" class="archive-article-date">
-  	<time datetime="2019-07-24T03:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/Ingredient/">Ingredient</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">sacred</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/configuration/" class="archive-article-date">
-  	<time datetime="2019-07-24T02:22:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/configuration/">sacred之configuration</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">sacred</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/24/Sacred/" class="archive-article-date">
-  	<time datetime="2019-07-24T01:20:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/24/Sacred/">Sacred 深度学习实验管理工具</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">experiments</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/23/TFRecord-Dataset/" class="archive-article-date">
-  	<time datetime="2019-07-23T09:11:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/23/TFRecord-Dataset/">TFRecord+Dataset</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TFRecord, tensorflow</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/23/TFRecord/" class="archive-article-date">
-  	<time datetime="2019-07-23T08:22:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/23/TFRecord/">TFRecord</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tensorflow</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/管道命令/" class="archive-article-date">
-  	<time datetime="2019-07-18T13:40:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/管道命令/">管道命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linux命令</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -579,8 +381,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

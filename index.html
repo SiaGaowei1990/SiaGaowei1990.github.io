@@ -159,6 +159,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-TF-Dataset读取数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/29/TF-Dataset读取数据/">TF.Dataset读取数据</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/29/TF-Dataset读取数据/" class="archive-article-date">
+  	<time datetime="2019-07-29T06:11:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#使用Dataset读取数据的方法</p>
+<p>在使用TF构建网路进行训练的时候，如何读取数据并将数据恰当地送进模型，是一个首先需要考虑的问题。</p>
+<h2 id="第一种-placeholder-feed"><a href="#第一种-placeholder-feed" class="headerlink" title="第一种  placeholder + feed"></a>第一种  placeholder + feed</h2><ol>
+<li><p>建立placeholder</p>
+</li>
+<li><p>使用feed_dict将数据feed进placeholder进行使用。</p>
+</li>
+</ol>
+<p>简单，但是需要一下子将所有的数据读入内存，然后分batch进行feed；</p>
+<p>也可以进一步改进，建立一个python的generator, 一个batch一个batch地将数据读入。并feed进placeholder。</p>
+<h2 id="第二种-tf-data-Dataset"><a href="#第二种-tf-data-Dataset" class="headerlink" title="第二种 tf.data.Dataset"></a>第二种 tf.data.Dataset</h2><p>在tf 1.x版本之后，逐渐开发引入了tf.data.Dataset模块，使其数据读入的操作变得更为方便，并且支持多线程操作。</p>
+<p>在tensorflow建立模型进行训练的时候，可以很容易生成这样的文件来表示数据：</p>
+<blockquote>
+<p>路径， 标签</p>
+<ol>
+<li>data/01.jpg， 猫</li>
+<li>data/02.jpg， 狗</li>
+<li>data/03.jpg， 猫</li>
+<li>data/04.jpg， 狗</li>
+<li>data/05.jpg， 猫</li>
+<li>data/06.jpg， 猫</li>
+</ol>
+</blockquote>
+<h3 id="1-一次性全部导入再分批"><a href="#1-一次性全部导入再分批" class="headerlink" title="1) 一次性全部导入再分批"></a>1) 一次性全部导入再分批</h3><ol>
+<li><p>首先将数据读入内存，然后使用tf.data.Dataset构建数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">image = ...</span><br><span class="line">labels = ...</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.batch(batch_size)</span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types, data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">       images, labels = iterator.get_next()</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutofRangeError:</span><br><span class="line">       sess.run(init_op)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>第一行和第二行，将数据images和labels读入内存</p>
+<p>第三行和第四行，构建Dataset，并设置Dataset的batch大小</p>
+<p>第五行，构建一个iterator</p>
+<p>第六行，构建一个初始化op</p>
+<p>随后便可在session对话中，尽心初始化操作，并且可以通过iterator函数逐批得到数据，并进行使用。</p>
+<p>需要注意的是 iterator中的元素取完之后，会抛出OutofRangeError异常，Tensorflow没有对异常进行处理，我们需要对齐进行捕捉和处理</p>
+<h3 id="2-利用generator分批导入"><a href="#2-利用generator分批导入" class="headerlink" title="2) 利用generator分批导入"></a>2) 利用generator分批导入</h3><p>建立一个读入数据的generator，然后使用tf.data.Dataset对其进行包装转换，即可实现batch读入数据的目的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'train.cvs'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readline()]</span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> true:</span><br><span class="line">         image = cv2.imread(lines[index][<span class="number">0</span>])</span><br><span class="line">         image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line">         label = lines[index][<span class="number">1</span>]</span><br><span class="line">         <span class="keyword">yield</span> (image, label)</span><br><span class="line">         index += <span class="number">1</span></span><br><span class="line">         <span class="keyword">if</span> index == len(lines):</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_dataset</span><span class="params">()</span>:</span></span><br><span class="line">    data = tf.data.Dataset.from_generator(gen, (tf.float32, tf.int32), (tf.TensorShape([<span class="number">224</span>,<span class="number">224</span>,<span class="number">3</span>]), tf.tensorShape([])))</span><br><span class="line">    data = data.batch(<span class="number">2</span>)</span><br><span class="line">    data = data.meke_one_shot_iterator()</span><br><span class="line">    _, labels = data.get_next()</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             getlabels = sess.run(labels)</span><br><span class="line">             print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, getlabels))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">   create_dataset()</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">   main()</span><br></pre></td></tr></table></figure>
+<h3 id="3-基于tensor操作构建Dataset"><a href="#3-基于tensor操作构建Dataset" class="headerlink" title="3)基于tensor操作构建Dataset"></a>3)基于tensor操作构建Dataset</h3><p>1）必须全部导入内存</p>
+<p>2）使用generator逐batch读入数据，但是读取速度较慢</p>
+<p>3）我们通过使用tf提供的tensor操作来读取数据，并基于此来构建Dataset</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">label_map = &#123;<span class="string">'猫'</span>：<span class="number">0</span>， <span class="string">'狗'</span>：<span class="number">1</span>&#125;</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">     lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_parse_function</span><span class="params">(filename, label)</span>:</span></span><br><span class="line">    image_string = tf.read_file(filename)</span><br><span class="line">    image_decoded = tf.image.decode_jpeg(image_string, channel=<span class="number">3</span>)</span><br><span class="line">    image = tf.cast(image_decoded, tf.float32)</span><br><span class="line">    </span><br><span class="line">    image = tf.image.resize_images(image, [<span class="number">224</span>, <span class="number">224</span>])</span><br><span class="line">    <span class="keyword">return</span> image, filename, label</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">training_preprocess</span><span class="params">(image, filename, label)</span>:</span></span><br><span class="line">    flip_name = tf.image.random_flip_left_right(image)</span><br><span class="line">    <span class="keyword">return</span> flip_image, file_name, label</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">images = []</span><br><span class="line">labels = []</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">  images.append(line[<span class="number">0</span>])</span><br><span class="line">  labels.append(label_map[line[<span class="number">1</span>]])</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">images = tf.constant(images)</span><br><span class="line">labels = tf.constant(labels)</span><br><span class="line">images = tf.shuffle(images, seed=<span class="number">0</span>)</span><br><span class="line">labels = tf.shuffle(labels, seed=<span class="number">0</span>)</span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line"></span><br><span class="line">data = data.map(_parse_function, num_parallel_calls=<span class="number">4</span>)</span><br><span class="line">data = data.prefetch(buffer_size = <span class="number">2</span>*<span class="number">10</span>)</span><br><span class="line">batched_data = data.batch(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">iterator = tf.data.Iterator.from_structure(batched_data.output_types, batched_data.output_shapes)</span><br><span class="line"></span><br><span class="line">init_op = iterator.make_initializer(batched_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">     sess.run(init_op)</span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">         <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">             <span class="keyword">try</span>:</span><br><span class="line">                images, filenames, labels = iterator.get_next()</span><br><span class="line">                print(<span class="string">'&#123;&#125;-&gt;&#123;&#125;'</span>.format(i, sess.run(labels)))</span><br><span class="line">             <span class="keyword">except</span> tf.errors.OutOfRangeError():</span><br><span class="line">                sess.run(init_op)</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tensorflow, datasets</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/29/TF-Dataset读取数据/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-多进程和多线程对比" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1008,93 +1121,6 @@
 
 
   
-    <article id="post-echo命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/18/echo命令/">echo命令</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/18/echo命令/" class="archive-article-date">
-  	<time datetime="2019-07-18T13:12:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="echo命令"><a href="#echo命令" class="headerlink" title="echo命令"></a>echo命令</h1><h3 id="用于字符串的输出"><a href="#用于字符串的输出" class="headerlink" title="用于字符串的输出"></a>用于字符串的输出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo string</span><br></pre></td></tr></table></figure>
-<h3 id="1-显示普通字符串"><a href="#1-显示普通字符串" class="headerlink" title="1.显示普通字符串:"></a>1.显示普通字符串:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;It is a test&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这里的双引号完全可以省略，以下命令与上面实例效果一致：</span><br><span class="line"></span><br><span class="line">echo It is a test</span><br></pre></td></tr></table></figure>
-<h3 id="2-显示转义字符"><a href="#2-显示转义字符" class="headerlink" title="2.显示转义字符"></a>2.显示转义字符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;\&quot;It is a test\&quot;&quot;</span><br><span class="line">结果将是:</span><br><span class="line">&quot;It is a test&quot;</span><br><span class="line">同样，双引号也可以省略</span><br></pre></td></tr></table></figure>
-<h3 id="3-显示变量"><a href="#3-显示变量" class="headerlink" title="3.显示变量"></a>3.显示变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">read 命令从标准输入中读取一行,并把输入行的每个字段的值指定给 shell 变量</span><br><span class="line"></span><br><span class="line">#!/bin/sh</span><br><span class="line">read name </span><br><span class="line">echo &quot;$name It is a test&quot;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">以上代码保存为 test.sh，name 接收标准输入的变量，结果将是:</span><br><span class="line"></span><br><span class="line">[root@www ~]# sh test.sh</span><br><span class="line">OK                     #标准输入</span><br><span class="line">OK It is a test        #输出</span><br></pre></td></tr></table></figure>
-<h3 id="4-显示换行"><a href="#4-显示换行" class="headerlink" title="4.显示换行"></a>4.显示换行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo -e &quot;OK! \n&quot; # -e 开启转义</span><br><span class="line">echo &quot;It it a test&quot;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"></span><br><span class="line">OK!</span><br><span class="line"></span><br><span class="line">It it a test</span><br></pre></td></tr></table></figure>
-<h3 id="5-显示不换行"><a href="#5-显示不换行" class="headerlink" title="5.显示不换行"></a>5.显示不换行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">echo -e &quot;OK! \c&quot; # -e 开启转义 \c 不换行</span><br><span class="line">echo &quot;It is a test&quot;</span><br><span class="line">输出结果：OK! It is a test</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>转义</p>
-<p>　　　　\a 发出警告声；<br>　　　　\b 删除前一个字符；<br>　　　　\c 最后不加上换行符号；<br>　　　　\f 换行但光标仍旧停留在原来的位置；<br>　　　　\n 换行且光标移至行首；<br>　　　　\r 光标移至行首，但不换行；<br>　　　　\t 插入tab；<br>　　　　\v 与\f相同；<br>　　　　\ 插入\字符；<br>　　　　\nnn 插入nnn（八进制）所代表的ASCII字符；</p>
-</blockquote>
-<h3 id="6-显示结果定向至文件"><a href="#6-显示结果定向至文件" class="headerlink" title="6.显示结果定向至文件"></a>6.显示结果定向至文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;It is a test&quot; &gt; myfile</span><br></pre></td></tr></table></figure>
-<h3 id="7-原样输出字符串，不进行转义或取变量-用单引号"><a href="#7-原样输出字符串，不进行转义或取变量-用单引号" class="headerlink" title="7.原样输出字符串，不进行转义或取变量(用单引号)"></a>7.原样输出字符串，不进行转义或取变量(用单引号)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;$name\&quot;&apos;</span><br><span class="line">输出结果：</span><br><span class="line">$name\&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="8-显示命令执行结果"><a href="#8-显示命令执行结果" class="headerlink" title="8.显示命令执行结果"></a>8.显示命令执行结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo `date`</span><br><span class="line">结果将显示当前日期</span><br><span class="line"></span><br><span class="line">Thu Jul 24 10:08:46 CST 2014</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linux命令</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/18/echo命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1192,15 +1218,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">sacred</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow, datasets</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">experiments</a>
+                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1212,6 +1242,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">dumps，loads，jump，load</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">linux命令</a>
               </li>
              
@@ -1220,19 +1254,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">dumps，loads，jump，load</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">linux环境变量设置</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color3">python包</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">python包</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
