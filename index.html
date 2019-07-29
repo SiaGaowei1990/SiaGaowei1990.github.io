@@ -159,6 +159,81 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-TF两种迭代器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/29/TF两种迭代器/">TF两种迭代器</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/29/TF两种迭代器/" class="archive-article-date">
+  	<time datetime="2019-07-29T11:21:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。</p>
+<p>本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.repeat()<span class="comment">##make_one_shot_iterator必须加这句</span></span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##生成batch的两种方法</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"><span class="comment">##第一种</span></span><br><span class="line"><span class="comment">##one_shot iterator就是该迭代器只会将对应的数据消费一次，消费完抛OutOfRangeError，通过外部包一层##try-catch来捕获该异常</span></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator()</span></span><br><span class="line"><span class="comment"># data_op = data_iterator.get_next()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.compat.v1.Session() as sess:</span></span><br><span class="line"><span class="comment">#   # sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         n = sess.run(data_op)</span></span><br><span class="line"><span class="comment">#         print(n[1])</span></span><br><span class="line"><span class="comment">#     #   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#         sess.run(data_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##第二种initializable iterator在one_shot的基础上可以多次使用该iterator，但是每次消费完数据集后，需##要重新初始化，简单来说，实现了单个iterator下单个dataset中填充数据的切换。</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      _, labels = iterator.get_next()</span><br><span class="line">      labels = sess.run(labels)</span><br><span class="line">      print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, labels))</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">      sess.run(init_op)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tensorflow</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/29/TF两种迭代器/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-TF-Dataset读取数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1037,90 +1112,6 @@
 
 
   
-    <article id="post-管道命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/18/管道命令/">管道命令</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/18/管道命令/" class="archive-article-date">
-  	<time datetime="2019-07-18T13:40:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="管道命令："><a href="#管道命令：" class="headerlink" title="管道命令："></a>管道命令：</h1><p>连接多个linux命令<br>符号：|</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">命令1 | 命令2 </span><br><span class="line">将命令1连接到命令2 上</span><br></pre></td></tr></table></figure>
-<h1 id="grep命令："><a href="#grep命令：" class="headerlink" title="grep命令："></a>grep命令：</h1><p>字符串搜索<br>格式：grep 需要搜索的字符串 搜索的文件</p>
-<p>参数：-i 忽略大小写查找数据</p>
-<p>返回关键字所在行</p>
-<p>例：grep class Dem.java</p>
-<p>返回结果：public class Dem{</p>
-<p>通常情况下，grep命令要与其他命令一起连用，例如管道命令</p>
-<p>例：查询当前目录下所有带t 关键字的行数据</p>
-<p>命令： ll | grep t</p>
-<p><strong>总结：管道|通常会与grep一起使用</strong></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linux命令</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/18/管道命令/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1218,11 +1209,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">sacred</a>
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow, datasets</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tensorflow, datasets</a>
+                <a href="javascript:void(0)" class="js-tag color2">sacred</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1230,11 +1221,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
+                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
+                <a href="javascript:void(0)" class="js-tag color1">TFRecord, tensorflow</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1258,11 +1249,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">python包</a>
+                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多进程</a>
+                <a href="javascript:void(0)" class="js-tag color3">python包</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -6,22 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>linux干货 | Gao Yongwei&#39;s Blog</title>
+  <title>TF两种迭代器 | Gao Yongwei&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.Linux宏观结构  /bin：bin是Binary的缩写, 这个目录存放着最经常使用的命令。 /boot：这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。 /dev ：dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。 /etc：这个目录用来存放所有的系统管理所需要的配置文件和子目录">
-<meta name="keywords" content="linux命令">
+  <meta name="description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
+<meta name="keywords" content="tensorflow">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux干货">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/linux干货/index.html">
+<meta property="og:title" content="TF两种迭代器">
+<meta property="og:url" content="http://yoursite.com/2019/07/29/TF两种迭代器/index.html">
 <meta property="og:site_name" content="Gao Yongwei&#39;s Blog">
-<meta property="og:description" content="1.Linux宏观结构  /bin：bin是Binary的缩写, 这个目录存放着最经常使用的命令。 /boot：这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。 /dev ：dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。 /etc：这个目录用来存放所有的系统管理所需要的配置文件和子目录">
+<meta property="og:description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
 <meta property="og:locale" content="English and Chinese">
-<meta property="og:image" content="https://www.linuxprobe.com/wp-content/uploads/2017/08/linux-system-4.jpg">
-<meta property="og:updated_time" content="2019-07-18T12:54:01.000Z">
+<meta property="og:updated_time" content="2019-07-29T11:25:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux干货">
-<meta name="twitter:description" content="1.Linux宏观结构  /bin：bin是Binary的缩写, 这个目录存放着最经常使用的命令。 /boot：这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。 /dev ：dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。 /etc：这个目录用来存放所有的系统管理所需要的配置文件和子目录">
-<meta name="twitter:image" content="https://www.linuxprobe.com/wp-content/uploads/2017/08/linux-system-4.jpg">
+<meta name="twitter:title" content="TF两种迭代器">
+<meta name="twitter:description" content="dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。 本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556">
   
     <link rel="alternative" href="/atom.xml" title="Gao Yongwei&#39;s Blog" type="application/atom+xml">
   
@@ -161,77 +159,29 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-linux干货" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-TF两种迭代器" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      linux干货
+      TF两种迭代器
     </h1>
   
 
         
-        <a href="/2019/07/18/linux干货/" class="archive-article-date">
-  	<time datetime="2019-07-18T12:17:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+        <a href="/2019/07/29/TF两种迭代器/" class="archive-article-date">
+  	<time datetime="2019-07-29T11:21:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-Linux宏观结构"><a href="#1-Linux宏观结构" class="headerlink" title="1.Linux宏观结构"></a>1.Linux宏观结构</h1><p><img src="https://www.linuxprobe.com/wp-content/uploads/2017/08/linux-system-4.jpg" alt="å¸¦ä½ çæ­£è®¤è¯Linux ç³»ç»ç»æå¸¦ä½ çæ­£è®¤è¯Linux ç³»ç»ç»æ"></p>
-<ul>
-<li><strong>/bin</strong>：<br>bin是Binary的缩写, 这个目录存放着最经常使用的命令。</li>
-<li><strong>/boot：</strong><br>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。</li>
-<li><strong>/dev ：</strong><br>dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。</li>
-<li><strong>/etc：</strong><br>这个目录用来存放所有的系统管理所需要的配置文件和子目录。</li>
-<li><strong>/home</strong>：<br>用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。</li>
-<li><strong>/lib</strong>：<br>这个目录里存放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。</li>
-<li><strong>/lost+found</strong>：<br>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</li>
-<li><strong>/media</strong>：<br>linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。</li>
-<li><strong>/mnt</strong>：<br>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。</li>
-<li><strong>/opt</strong>：<br> 这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</li>
-<li><p><strong>/proc</strong>：<br>这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器</p>
-</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>/root</strong>：<br>该目录为系统管理员，也称作超级权限者的用户主目录。</p>
-</li>
-<li><p><strong>/sbin</strong>：<br>s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序。</p>
-</li>
-<li><p><strong>/selinux</strong>：<br> 这个目录是Redhat/CentOS所特有的目录，Selinux是一个安全机制，类似于windows的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。</p>
-</li>
-<li><p><strong>/srv</strong>：<br> 该目录存放一些服务启动之后需要提取的数据。</p>
-</li>
-<li><p><strong>/sys</strong>：</p>
-<p> 这是linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统 sysfs 。</p>
-<p>sysfs文件系统集成了下面3种文件系统的信息：针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端的devpts文件系统。</p>
-<p>该文件系统是内核设备树的一个直观反映。</p>
-<p>当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。</p>
-</li>
-<li><p><strong>/tmp</strong>：<br>这个目录是用来存放一些临时文件的。</p>
-</li>
-<li><p><strong>/usr</strong>：<br> 这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于windows下的program files目录。</p>
-</li>
-<li><p><strong>/usr/bin：</strong><br>系统用户使用的应用程序。</p>
-</li>
-<li><p><strong>/usr/sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p>
-</li>
-<li><p><strong>/usr/src：</strong><br>内核源代码默认的放置目录。</p>
-</li>
-<li><p><strong>/var</strong>：<br>这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p>
-</li>
-<li><p><strong>/run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 /var/run 目录，应该让它指向 run。</p>
-<h1 id="应该注意以下几点："><a href="#应该注意以下几点：" class="headerlink" title="应该注意以下几点："></a>应该注意以下几点：</h1><p>在 Linux 系统中，有几个目录是比较重要的，平时需要注意不要误删除或者随意更改内部文件。</p>
-<p><strong>/etc</strong>： 上边也提到了，这个是系统中的配置文件，如果你更改了该目录下的某个文件可能会导致系统不能启动。</p>
-<p><strong>/bin, /sbin, /usr/bin, /usr/sbin</strong>: 这是系统预设的执行文件的放置目录，比如 ls 就是在/bin/ls 目录下的。</p>
-<p>值得提出的是，/bin, /usr/bin 是给系统用户使用的指令（除root外的通用户），而/sbin, /usr/sbin 则是给root使用的指令。</p>
-<p><strong>/var</strong>： 这是一个非常重要的目录，系统上跑了很多程序，那么每个程序都会有相应的日志产生，而这些日志就被记录到这个目录下，具体在/var/log 目录下，另外mail的预设放置也是在这里。</p>
-</li>
-</ul>
-
+        <p>dataset作为tf官方提供的数据处理api，在模型构建过程中必不可少。</p>
+<p>本文仅对dataset的迭代器进行介绍，tf官方给出了两种常见的迭代器：one_shot，initializable</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'train.csv'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = [line.strip().split(<span class="string">','</span>) <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines()]</span><br><span class="line"></span><br><span class="line">labels_map = &#123;<span class="string">'猫'</span>:<span class="number">0</span>, <span class="string">'狗'</span>:<span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">images = np.ndarray((len(lines), <span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>), float)</span><br><span class="line">labels = np.ndarray(len(lines), int)</span><br><span class="line"><span class="keyword">for</span> i, line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">    image = cv2.imread(line[<span class="number">0</span>])</span><br><span class="line">    image = cv2.resize(image, (<span class="number">224</span>, <span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">    label = labels_map[line[<span class="number">1</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">2</span></span><br><span class="line">data = tf.data.Dataset.from_tensor_slices((images, labels))</span><br><span class="line">data = data.repeat()<span class="comment">##make_one_shot_iterator必须加这句</span></span><br><span class="line">data = data.shuffle(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">##生成batch的两种方法</span></span><br><span class="line"><span class="comment"># data = data.batch(batch_size, drop_remainder=True)  #tf 1.1x以上版本才有</span></span><br><span class="line">data = data.apply(tf.contrib.data.batch_and_drop_remainder(batch_size)) <span class="comment">#以前版本只能用这行</span></span><br><span class="line"></span><br><span class="line">data = data.prefetch(<span class="number">20</span>)</span><br><span class="line">print(data.output_shapes)</span><br><span class="line">print(data.output_types)</span><br><span class="line"></span><br><span class="line"><span class="comment">##第一种</span></span><br><span class="line"><span class="comment">##one_shot iterator就是该迭代器只会将对应的数据消费一次，消费完抛OutOfRangeError，通过外部包一层##try-catch来捕获该异常</span></span><br><span class="line"><span class="comment"># data_iterator = data.make_one_shot_iterator()</span></span><br><span class="line"><span class="comment"># data_op = data_iterator.get_next()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># tt = time.time()</span></span><br><span class="line"><span class="comment"># with tf.compat.v1.Session() as sess:</span></span><br><span class="line"><span class="comment">#   # sess.run(init_op)</span></span><br><span class="line"><span class="comment">#   for i in range(100):</span></span><br><span class="line"><span class="comment">#     try:</span></span><br><span class="line"><span class="comment">#         n = sess.run(data_op)</span></span><br><span class="line"><span class="comment">#         print(n[1])</span></span><br><span class="line"><span class="comment">#     #   print('&#123;&#125; -&gt; &#123;&#125;'.format(i, labels))</span></span><br><span class="line"><span class="comment">#     except tf.errors.OutOfRangeError:</span></span><br><span class="line"><span class="comment">#         sess.run(data_op)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   print(time.time() - tt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##第二种initializable iterator在one_shot的基础上可以多次使用该iterator，但是每次消费完数据集后，需##要重新初始化，简单来说，实现了单个iterator下单个dataset中填充数据的切换。</span></span><br><span class="line">iterator = tf.data.Iterator.from_structure(data.output_types,                                       data.output_shapes)</span><br><span class="line">init_op = iterator.make_initializer(data)</span><br><span class="line"></span><br><span class="line">tt = time.time()</span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">  sess.run(init_op)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">      _, labels = iterator.get_next()</span><br><span class="line">      labels = sess.run(labels)</span><br><span class="line">      print(<span class="string">'&#123;&#125; -&gt; &#123;&#125;'</span>.format(i, labels))</span><br><span class="line">    <span class="keyword">except</span> tf.errors.OutOfRangeError:</span><br><span class="line">      sess.run(init_op)</span><br><span class="line"></span><br><span class="line">  print(time.time() - tt)</span><br></pre></td></tr></table></figure>
       
 
       
@@ -265,7 +215,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">linux命令</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">tensorflow</a>
         		</li>
       		
 		</ul>
@@ -321,7 +271,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/linux干货/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/29/TF两种迭代器/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -335,18 +285,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/18/linux环境变量设置/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          linux环境变量设置
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/18/click/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">click</div>
+    <a href="/2019/07/29/TF-Dataset读取数据/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TF.Dataset读取数据</div>
       <i class="icon-circle-right"></i>
     </a>
   
