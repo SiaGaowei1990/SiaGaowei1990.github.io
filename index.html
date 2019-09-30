@@ -159,6 +159,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-audiosegmentation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/30/audiosegmentation/">audiosegmentation</a>
+    </h1>
+  
+
+        
+        <a href="/2019/09/30/audiosegmentation/" class="archive-article-date">
+  	<time datetime="2019-09-30T02:23:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Author  : FELIX</span></span><br><span class="line"><span class="comment"># @Date    : 2018/5/18 15:13</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pydub <span class="keyword">import</span> AudioSegment</span><br><span class="line"></span><br><span class="line">sound=AudioSegment.from_file(<span class="string">"aaa.mp3"</span>,<span class="string">"mp3"</span>)</span><br><span class="line">sound2=AudioSegment.from_file(<span class="string">'bbb.mp3'</span>,<span class="string">'mp3'</span>)</span><br><span class="line"><span class="comment"># 把一个多声道音频分解成两个单声道</span></span><br><span class="line"><span class="comment"># index[0]为左声道</span></span><br><span class="line"><span class="comment"># index[1]为右声道</span></span><br><span class="line"><span class="comment"># sounds=sound.split_to_mono()</span></span><br><span class="line"><span class="comment"># print(sounds)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将两个单声道合并成多声道</span></span><br><span class="line"><span class="comment"># stereo_sound = AudioSegment.from_mono_audiosegments(sounds[0], sounds[1])</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># # 取得音频的分贝数</span></span><br><span class="line"><span class="comment"># loudness = sound.dBFS</span></span><br><span class="line"><span class="comment"># print(loudness)</span></span><br><span class="line"><span class="comment"># # 获取音频音量大小，该值通常用来计算分贝数（dB= 20×lgX）</span></span><br><span class="line"><span class="comment"># loudness = sound.rms</span></span><br><span class="line"><span class="comment"># print(loudness)</span></span><br><span class="line"><span class="comment"># # 取得音频的声道数</span></span><br><span class="line"><span class="comment"># channel_count = sound.channels</span></span><br><span class="line"><span class="comment"># print(channel_count)</span></span><br><span class="line"><span class="comment"># # 取得音频文件采样宽度</span></span><br><span class="line"><span class="comment"># bytes_per_sample = sound.sample_width</span></span><br><span class="line"><span class="comment"># print(bytes_per_sample)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># # 取得音频文件采样频率</span></span><br><span class="line"><span class="comment"># frames_per_second = sound.frame_rate</span></span><br><span class="line"><span class="comment"># print(frames_per_second)</span></span><br><span class="line"><span class="comment"># #取得音频文件帧宽度</span></span><br><span class="line"><span class="comment"># bytes_per_frame = sound.frame_width</span></span><br><span class="line"><span class="comment"># print(bytes_per_frame)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># #取得音频中的最大振幅</span></span><br><span class="line"><span class="comment"># normalized_sound = sound.apply_gain(-sound.max_dBFS)</span></span><br><span class="line"><span class="comment"># print(normalized_sound)</span></span><br><span class="line"><span class="comment"># #取得音频的持续时间，同 len()</span></span><br><span class="line"><span class="comment"># print(sound.duration_seconds)</span></span><br><span class="line"><span class="comment"># print((len(sound) / 1000.0))</span></span><br><span class="line"><span class="comment"># #取得音频数据</span></span><br><span class="line"><span class="comment"># raw_audio_data = sound.raw_data</span></span><br><span class="line"><span class="comment"># # print(raw_audio_data)</span></span><br><span class="line"><span class="comment"># #取得音频的frame数量</span></span><br><span class="line"><span class="comment"># number_of_frames_in_sound = sound.frame_count()</span></span><br><span class="line"><span class="comment"># number_of_frames_in_200ms_of_sound = sound.frame_count(ms=200)</span></span><br><span class="line"><span class="comment"># print(number_of_frames_in_sound)</span></span><br><span class="line"><span class="comment"># print(number_of_frames_in_200ms_of_sound)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拼接sound1与sound2，返回一个新的AudioSegment实例</span></span><br><span class="line"><span class="comment"># cossfade：交叉渐变间隔 ms</span></span><br><span class="line"><span class="comment"># no_crossfade1 = sound.append(sound2, crossfade=5000)</span></span><br><span class="line"><span class="comment"># print(no_crossfade1)</span></span><br><span class="line"><span class="comment"># no_crossfade1.export(r'cc.wav',format='wav') # 输出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 把sound2覆盖在sound1上，两个音频文件会叠加，如果sound2较长，则会被截断。</span></span><br><span class="line"><span class="comment"># 参数：</span></span><br><span class="line"><span class="comment"># position：覆盖起始位置（毫秒）</span></span><br><span class="line"><span class="comment"># loop：是否循环覆盖（true/false）</span></span><br><span class="line"><span class="comment"># times：重复覆盖次数（默认1）</span></span><br><span class="line"><span class="comment"># gain_during_overlay：调整被覆盖音频的音量（eg，-6.0）</span></span><br><span class="line"><span class="comment"># played_togther = sound.overlay(sound2)</span></span><br><span class="line"><span class="comment"># # sound2_starts_after_delay = sound.overlay(sound2, position=5000)</span></span><br><span class="line"><span class="comment"># # volume_of_sound1_reduced_during_overlay = sound.overlay(sound2, gain_during_overlay=-8)</span></span><br><span class="line"><span class="comment"># # sound2_repeats_until_sound1_ends = sound.overlay(sound2, loop=True)</span></span><br><span class="line"><span class="comment"># # sound2_plays_twice = sound.overlay(sound2, times=2)</span></span><br><span class="line"><span class="comment"># played_togther.export(r'dd.wav',format='wav') # 输出</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#调整音量大小</span></span><br><span class="line"><span class="comment"># louder_via_method = sound.apply_gain(+3.5) # 提高</span></span><br><span class="line"><span class="comment"># quieter_via_method = sound.apply_gain(-5.7) # 减小</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#淡出</span></span><br><span class="line"><span class="comment"># 参数：</span></span><br><span class="line"><span class="comment"># to_gain：淡出结束时音频音量下降到的分贝数</span></span><br><span class="line"><span class="comment"># from_gain：设置淡出前的所有音频分贝数</span></span><br><span class="line"><span class="comment"># start：淡出的起始位置</span></span><br><span class="line"><span class="comment"># end：淡出的结束位置</span></span><br><span class="line"><span class="comment"># duration：淡出持续时间</span></span><br><span class="line"><span class="comment"># fade_in_the_hard_way = sound.fade(from_gain=-120.0, start=0, duration=5000)</span></span><br><span class="line"><span class="comment"># fade_out_the_hard_way = sound.fade(to_gain=-120.0, end=0, duration=5000)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 反向输出</span></span><br><span class="line"><span class="comment"># sound.reverse().export(r'ee.wav',format='wav') # 输出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整多声道音频的左右声道音量</span></span><br><span class="line"><span class="comment"># 如果单声道音频调用此方法，它将先被转换为多声道</span></span><br><span class="line"><span class="comment"># stereo_balance_adjusted = sound.apply_gain_stereo(-6, +2)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># #左右声道平衡，按百分比增大一边，减小另一边</span></span><br><span class="line"><span class="comment"># # pan the sound 15% to the right</span></span><br><span class="line"><span class="comment"># panned_right = sound.pan(+0.15)</span></span><br><span class="line"><span class="comment"># # pan the sound 50% to the left</span></span><br><span class="line"><span class="comment"># panned_left = sound.pan(-0.50)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># # 基于DSP的渲染</span></span><br><span class="line"><span class="comment"># # 产生一个反向信号的副本，来消除反相位波，或者降低噪音</span></span><br><span class="line"><span class="comment"># sound.invert_phase()</span></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">音频处理包</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/09/30/audiosegmentation/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-本地上传github" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -976,143 +1050,9 @@
 
 
   
-    <article id="post-TF-TFRecord-Dataset" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/23/TF-TFRecord-Dataset/">TFRecord+Dataset</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/23/TF-TFRecord-Dataset/" class="archive-article-date">
-  	<time datetime="2019-07-23T09:11:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#TFRecord 和 Dataset进行数据的写入和读取</p>
-<h2 id="1-为什么用TFRecord"><a href="#1-为什么用TFRecord" class="headerlink" title="1 为什么用TFRecord"></a>1 为什么用TFRecord</h2><p>正常情况下，我们训练文件夹经常会生成 train test valid文件夹，然而这些文件散列存储，不仅占用磁盘空间，而且再被一个个读取时会非常地慢。此时TFRecord格式的文件存储会很合理地帮我们存储数据。</p>
-<p>TFRecord内部使用了二进制数据编码方案，它只占用一个内存块，只需要一次性加载一个二进制文件的方式即可，简单，快速，尤其适合于大型训练数据。并且，当我们的训练数据量很大的时候，可以将数据分为多个TFRecord文件，来提高效率。</p>
-<p>好处：</p>
-<p>1）原来使用placeholder的话还要每次feed_dict一下，使用TFRecord+Dataset的时候直接就把数据读入操作当做图中的一个节点，就不用每次都feed了。</p>
-<p>2）可以方便和Estimator进行对接</p>
-<h1 id="将数据写入TFRecord文件"><a href="#将数据写入TFRecord文件" class="headerlink" title="将数据写入TFRecord文件"></a>将数据写入TFRecord文件</h1><p>创建一个writer</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">writer = tf.python_io.TFRecordWriter(<span class="string">'%s.tfrecord'</span>%<span class="string">'data'</span>)</span><br></pre></td></tr></table></figure>
-<p>创建存储类型tf_feature</p>
-<p>向.tfrecord里面写数据的时候首先要写入数据项features的类型</p>
-<p>有三种：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int64:   tf.train.Feature(int64_list=tf.train.Int64List(value=输入))</span><br><span class="line">float32: tf.train.Feature(float_list=tf.train.FloatList(value=输入))</span><br><span class="line">string:  tf.train.Feature(bytes_list=tf.train.BytesList(value=输入))</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong></p>
-<p>输入必须是list，由于tensorflow feature类型只接受list、向量数据，但是如果数据是矩阵或者张量时候，有两种解决方法：</p>
-<ul>
-<li><p>转成list类型，将张量flatten成list 然后 写入</p>
-</li>
-<li><p>转成string类型，将张量用 .to_string()转换成string类型，再用tf.train.Feature(bytes_list=tf.train.BytesList(value=[input.to_string()]))来存储</p>
-</li>
-<li><p>形状信息：不管哪种方式都会丢失形状信息，因此写入feature时应该额外加入shape信息作为额外的feature。shape的信息是int类型。</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这里我们写三个样本，每个样本有4个feature：标量，向量，张量，矩阵</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    <span class="comment">#创建字典</span></span><br><span class="line">    features = &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#写入标量， 类型是int64</span></span><br><span class="line">    features[<span class="string">'scalar'</span>] = tf.train.Feature(int64_list=tf.train.Int64List(value=[salars[i]]))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#写入向量， 类型是float</span></span><br><span class="line">    features[<span class="string">'vector'</span>] = tf.train.Feature(float_list=tf.train.FloatList(value=vectors[i]))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#写入矩阵， 类型是float</span></span><br><span class="line">    features[<span class="string">'matrix'</span>] = tf.train.Feature(float_list=tf.train.FloatList(value=matrices[i].reshape[<span class="number">-1</span>]))</span><br><span class="line">    <span class="comment">#由于flatten之后形状丢失，因此需要存储形状信息</span></span><br><span class="line">    features[<span class="string">'matrix_shape'</span>] = tf.train.Feature(int64_list=tf.train.Int64List(value=matrics[i].shape))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#写入张量， 类型是float</span></span><br><span class="line">    features[<span class="string">'tensor'</span>] = tf.train.Feature(bytes_list=tf.train.ByteList(value=[tensors[i].tostring()]))</span><br><span class="line">    <span class="comment">#存储形状</span></span><br><span class="line">    features[<span class="string">'tensor_shape'</span>] = tf.train.Feature(int64_list=tf.train.Int64List(value=tensors[i].shape))</span><br></pre></td></tr></table></figure>
-<h1 id="将tf-feature转换成tf-example以及进行序列化"><a href="#将tf-feature转换成tf-example以及进行序列化" class="headerlink" title="将tf_feature转换成tf_example以及进行序列化"></a>将tf_feature转换成tf_example以及进行序列化</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将所有的feature的字典送入tf.train.Features中</span></span><br><span class="line">tf_features = tf.train.Features(feature=features)</span><br><span class="line"><span class="comment">#再将其变成一个样本</span></span><br><span class="line">tf_example = tf.train.Example(features=tf_features)</span><br><span class="line"><span class="comment">#序列化该样本</span></span><br><span class="line">tf.serialized = tf_example.SerializeToString()</span><br></pre></td></tr></table></figure>
-<p>#写入样本，关闭文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#写入一个序列化样本</span></span><br><span class="line">writer.write(tf_serialized)</span><br><span class="line"><span class="comment">#由于上面有三次循环，所以到此我们已经写了3个样本</span></span><br><span class="line"><span class="comment">#关闭文件</span></span><br><span class="line">writer.close()</span><br></pre></td></tr></table></figure>
-<h1 id="使用Dataset读取数据"><a href="#使用Dataset读取数据" class="headerlink" title="使用Dataset读取数据"></a>使用Dataset读取数据</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = tf.data.TFRecordDataset(filename)</span><br><span class="line"><span class="comment">#这样的话就是读取两次数据，数据量就是两倍</span></span><br><span class="line">dataset = tf.data.TFRecordDataset(<span class="string">'test.tfrecord'</span>, <span class="string">'test.tfrecord'</span>)</span><br></pre></td></tr></table></figure>
-<h1 id="解析feature信息"><a href="#解析feature信息" class="headerlink" title="解析feature信息"></a>解析feature信息</h1><p>是写入的逆过程，所以需要写入时的信息，使用库pandas</p>
-<ul>
-<li><p>isbyte是用于记录该feature是否字符化了</p>
-</li>
-<li><p>default是所读的样本该feature确实有，用什么进行填补，一般用np.NaN</p>
-</li>
-<li><p>length_type是指读取向量的方式是否是定长</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_infor= pd.DataFrame()</span><br></pre></td></tr></table></figure>
-<h1 id="创建解析函数"><a href="#创建解析函数" class="headerlink" title="创建解析函数"></a>创建解析函数</h1><p>example_proto，也就是序列化后的数据，即读到TFRecord文件的数据</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_function</span><span class="params">(example_proto)</span>:</span></span><br><span class="line">    <span class="comment">#只接受一个输入</span></span><br></pre></td></tr></table></figure>
-<p>解析有两种方式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#定长特征解析：</span><br><span class="line">tf.FixedLenFeature(shape, dtype, default_value) </span><br><span class="line">#detype必须是tf.float32,tf.int64,tf.string中的一种</span><br><span class="line"></span><br><span class="line">#不定长特征解析</span><br><span class="line">tf.VarLenFeature(dtype)</span><br></pre></td></tr></table></figure>
-<p>解析代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dics = &#123;</span><br><span class="line">      <span class="string">'scalar'</span>: tf.FixedLenFeature(shape=(), dtype=tf.int64, default_value=<span class="literal">None</span>),  </span><br><span class="line">      <span class="string">'vector'</span>: tf.FixedLenFeature(shape=(<span class="number">1</span>, <span class="number">3</span>), dtype=tf.float32), </span><br><span class="line">      <span class="string">'matrix'</span>: tf.VarLenFeature(dtype=dtype(<span class="string">'float32'</span>)),</span><br><span class="line">      <span class="string">'matrix_shape'</span>: tf.FixLenFeature(shape=(<span class="number">2</span>,), dtype=tf.int64),</span><br><span class="line">      <span class="string">'tensor'</span>: tf.FixLenFeature(shape=(), dtype=tf.string),</span><br><span class="line">      <span class="string">'tensor_shape'</span>: tf.FixLenFeature(shape=(<span class="number">3</span>,), dtype=tf.int64)</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="进行解析"><a href="#进行解析" class="headerlink" title="进行解析"></a>进行解析</h1><p>得到的parsed_example也是一个字典，其中每个key是对应的feature的名字，value是相应feature解析值。</p>
-<p>如果使用了一下两种类型，需要进一步转变</p>
-<ul>
-<li><p>string类型：还需用 tf.decode_raw(parsed_feature, dtype) 进一步解码</p>
-<p>注：这里的type需要和 .to_string()之前的一致。</p>
-</li>
-<li><p>VarLen类型：由于得到的是spaseTensor，所以视情况用 tf.sparse_to_dense(SparseTensor) 来转换为DenseTensor</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进行解析</span></span><br><span class="line">parsed_example = tf.parse_single_example(example_proto, dics)</span><br><span class="line"></span><br><span class="line"><span class="comment">#解码字符</span></span><br><span class="line">parsed_example[<span class="string">'tensor'</span>] = tf.decode_raw(parsed_example[<span class="string">'tensor'</span>], tf.uint8)</span><br><span class="line"></span><br><span class="line"><span class="comment">#稀疏表示 转化为 密集表示</span></span><br><span class="line">parsed_example[<span class="string">'matrix'</span>] = tf.sparse_to_dense(parsed_example[<span class="string">'matrix'</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="转变形状"><a href="#转变形状" class="headerlink" title="转变形状"></a>转变形状</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#转变matrix的形状</span></span><br><span class="line">parsed_example[<span class="string">'matrix'</span>] = tf.reshape(parsed_example[<span class="string">'matrix'</span>], parsed_example[<span class="string">'matrix_shape'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#转变tensor形状</span></span><br><span class="line">parsed_example[<span class="string">'tensor'</span>] = tf.reshape(parsed_example[<span class="string">'tensor'</span>], parsed_example[<span class="string">'tensor_shape'</span>])</span><br></pre></td></tr></table></figure>
-<h1 id="执行解析函数"><a href="#执行解析函数" class="headerlink" title="执行解析函数"></a>执行解析函数</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_dataset = dataset.map(parse_function)</span><br></pre></td></tr></table></figure>
-<h1 id="创建迭代器"><a href="#创建迭代器" class="headerlink" title="创建迭代器"></a>创建迭代器</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建获取样本的迭代器</span></span><br><span class="line">iterator = new_dataset.make_one_shot_iterator()</span><br><span class="line"><span class="comment">#函数 make_one_shot_iterator()表示只将数据读取一次，然后就抛掉这个数据了</span></span><br></pre></td></tr></table></figure>
-<h1 id="获取样本"><a href="#获取样本" class="headerlink" title="获取样本"></a>获取样本</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取下一个样本</span></span><br><span class="line">next_element = iterator.get_next()</span><br><span class="line"><span class="comment">#创建Session</span></span><br><span class="line">sess = tf.InteractiveSession()</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取</span></span><br><span class="line">i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  <span class="comment">#不断获得下一个样本</span></span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">     <span class="comment">#获得的值直接作为graph的一部分，所以不再需要feed_dict来喂</span></span><br><span class="line">     scalar, vector, matrix, tensor = sess.run([next_element[<span class="string">'scalar'</span>], </span><br><span class="line">     [next_element[<span class="string">'vector'</span>]</span><br><span class="line">     [next_element[<span class="string">'matrix'</span>]</span><br><span class="line">     [next_element[<span class="string">'tensor'</span>]])</span><br><span class="line">  <span class="keyword">except</span> tf.errors.OutofRangeError:</span><br><span class="line">     print(<span class="string">'End of dataset'</span>)</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">     <span class="comment">#显示每个样本的所有feature信息，只显示scalar值</span></span><br><span class="line">     print(<span class="string">'==============example %s================'</span>%i)</span><br><span class="line">     print(<span class="string">'scalar： value：%s| shape：%s | type：%s‘%(scalar, scalar.shape, scalar.dtype))</span></span><br><span class="line"><span class="string">     print('</span>vector： shape：%s| type：%s‘%(vector.shape, vector.dtype))</span><br><span class="line">     print(<span class="string">'matrix： shape：%s| type：%s‘%(matrix.shape, matrix.dtype))</span></span><br><span class="line"><span class="string">     print('</span>tensor： shape：%s| type：%s‘%(tensor.shape, tensor.dtype))</span><br><span class="line">     </span><br><span class="line">  i += <span class="number">1</span></span><br><span class="line">plt.imshow(tensor)</span><br></pre></td></tr></table></figure>
-<h1 id="进行shuffle"><a href="#进行shuffle" class="headerlink" title="进行shuffle"></a>进行shuffle</h1><p>Buffer_size=10000的含义是县创建一个大小为10000的buffer, 然后对这个buffer进行打乱，如果buffersize过大的话虽然打乱效果很好，但是占用的内存也变大，如果buffersize小的话打乱效果不好，一般可以设置为一个batch_size的10倍。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shuffle_dataset = new_dataset.shuffle(buffle_size=<span class="number">10000</span>)</span><br><span class="line">iterator = shuffle_dataset.make_one_shot_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br></pre></td></tr></table></figure>
-<h1 id="设置batch"><a href="#设置batch" class="headerlink" title="设置batch"></a>设置batch</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">batch_dataset = shuffle_dataset.batch(<span class="number">4</span>)</span><br><span class="line">iterator = batch_dataset.make_one_shot_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br></pre></td></tr></table></figure>
-<h1 id="设置epoch"><a href="#设置epoch" class="headerlink" title="设置epoch"></a>设置epoch</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">num_epochs= <span class="number">2</span></span><br><span class="line">epoch_dataset= new_dataset.repeat(num_epochs)</span><br><span class="line">iterator = epoch_dataset.make_one_shot_iterator()</span><br><span class="line">next_element = iterator.get_next()</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">TFRecord, tensorflow</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/23/TF-TFRecord-Dataset/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1252,6 +1192,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">tensorflow</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">音频处理包</a>
               </li>
              
               <li class="article-tag-list-item">
