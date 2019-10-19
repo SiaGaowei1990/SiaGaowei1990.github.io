@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style type="text/css">
+	body {
+		text-align: center;
+		font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+		color: #4f6b72;
+		background: #E6EAE9;
+	}
+	.select {
+		display: inline-block;
+		width: 300px;
+		position: relative;
+		vertical-align: middle;
+		padding: 0;
+		overflow: hidden;
+		background-color: #fff;
+		color: #555;
+		border: 1px solid #aaa;
+		text-shadow: none;
+		border-radius: 4px;	
+		transition: box-shadow 0.25s ease;
+		z-index: 2;
+	}
+ 
+	.select:hover {
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+	}
+ 
+	.select:before {
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+		border: 10px solid transparent;
+		border-top-color: #ccc;
+		top: 14px;
+		right: 10px;
+		cursor: pointer;
+		z-index: -2;
+	}
+	.select select {
+		cursor: pointer;
+		padding: 10px;
+		width: 100%;
+		border: none;
+		background: transparent;
+		background-image: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	}
+ 
+	.select select:focus {
+		outline: none;
+	}
+	#mytable {
+	width: 700px;
+	padding: 0;
+	margin: 0;
+}
+ 
+caption {
+	padding: 0 0 5px 0;
+	width: 700px;	 
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+ 
+th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+}
+ 
+th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+ 
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+ 
+ 
+td.alt {
+	background: #F5FAFA;
+	color: #797268;
+}
+ 
+th.spec {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff url(images/bullet1.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+ 
+th.specalt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa url(images/bullet2.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #797268;
+}
+</style>
+<script language="javascript">
+function showco(va){ 
+	if (va=="verse80612"){ 
+		verse80612.style.display=''; 
+		verse45417.style.display='none';
+	}
+	if (va=="verse45417"){ 
+		verse80612.style.display='none';
+		verse45417.style.display='';
+	}
+	if (va==""){ 
+		verse80612.style.display='none';
+		verse45417.style.display='none';
+	}
+}
+</script>
+<h1>singing voice separation</h1>
+选择文件：
+<div class="select">
+<form name=form1>
+<select name="select" onChange="javascript:showco(this.value);">
+	<option style='display: none'></option>
+  <option value="verse80612">80612_verse</option>
+  <option value="verse45417">45417_verse</option>
+</select>
+</form>
+</div>
+<div id="verse80612" style="display:none" align="center">
+	<table id="verse80612table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 1: 80612_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>80612_verse.wav</h5>
+				<audio src="../songSeparation/music/80612_verse/mix/mix_80612_verse.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/80612_verse/groundTruth/vocal_80612_verse.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/80612_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/80612_verse/groundTruth/accoms_80612_verse.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/80612_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="verse45417" style="display:none" align="center">
+	<table id="mverse45417table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 2: 45417_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>45417_verse.wav</h5>
+				<audio src="../songSeparation/music/45417_verse/mix/mix_45417_verse.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45417_verse/groundtruth/vocal_45417_verse.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45417_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45417_verse/groundtruth/accoms_45417_verse.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45417_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>
