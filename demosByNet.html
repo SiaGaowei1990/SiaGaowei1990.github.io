@@ -905,4 +905,14 @@ function showco(va){
 	</table>
 </div>
 </body>
+	<script type="text/javascript">
+	var audio = document.getElementsByTagName("audio");
+	for(var i=0, l = audio.length; i<l; i++){
+    		audio[i].addEventListener("play", function(){
+        	for(var i=0, l = audio.length; i<l; i++)
+            		if (audio[i]!=this)
+                	audio[i].pause();
+   	 });
+	}
+</script>
 </html>
