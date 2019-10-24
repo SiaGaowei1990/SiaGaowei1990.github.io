@@ -79,7 +79,7 @@ th {
 	text-transform: uppercase;
 	text-align: center;
 	padding: 6px 6px 6px 12px;
-	background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+	background: #CAE8EA no-repeat;
 }
  
 th.nobg {
@@ -106,42 +106,53 @@ td.alt {
 th.spec {
 	border-left: 1px solid #C1DAD7;
 	border-top: 0;
-	background: #fff url(images/bullet1.gif) no-repeat;
+	background: #fff no-repeat;
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
  
 th.specalt {
 	border-left: 1px solid #C1DAD7;
 	border-top: 0;
-	background: #f5fafa url(images/bullet2.gif) no-repeat;
+	background: #f5fafa no-repeat;
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
 }
 </style>
 <script language="javascript">
 function showco(va){ 
-	if (va=="verse80612"){ 
-		verse80612.style.display=''; 
-		verse45417.style.display='none';
-	}
-	if (va=="verse45417"){ 
-		verse80612.style.display='none';
-		verse45417.style.display='';
-	}
-	if (va==""){ 
-		verse80612.style.display='none';
-		verse45417.style.display='none';
+	var divs = document.getElementsByTagName('div');
+	for (var i = 0; i < divs.length; i++) {
+		if(va == divs[i].id){
+			divs[i].style.display='';
+		} else if(divs[i].id != "page"){
+			divs[i].style.display='none';
+		}
 	}
 }
 </script>
 <h1>singing voice separation</h1>
 选择文件：
-<div class="select">
+<div id="page" class="select">
 <form name=form1>
 <select name="select" onChange="javascript:showco(this.value);">
 	<option style='display: none'></option>
   <option value="verse80612">80612_verse</option>
   <option value="verse45417">45417_verse</option>
+  <option value="abjones_2_01">abjones_2_01</option>
+  <option value="chorus21040">21040_chorus</option>
+  <option value="amy_13_04">amy_13_04</option>
+  <option value="annar_2_03">annar_2_03</option>
+  <option value="annar_4_02">annar_4_02</option>
+  <option value="heycat_1_01">heycat_1_01</option>
+  <option value="titon_3_08">titon_3_08</option>
+  <option value="yifen_2_13">yifen_2_13</option>
+  <option value="verse21040">21040_verse</option>
+  <option value="verse21069">21069_verse</option>
+  <option value="chorus31137">31137_chorus</option>
+  <option value="verse45418">45418_verse</option>
+  <option value="chorus54236">54236_chorus</option>
+  <option value="chorus61677">61677_chorus</option>
+  <option value="verse90587">90587_verse</option>
 </select>
 </form>
 </div>
@@ -233,5 +244,675 @@ function showco(va){
 		</tr>
 	</table>
 </div>
+<div id="chorus21040" style="display:none" align="center">
+	<table id="chorus21040table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 3: 21040_chorus </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>21040_chorus.wav</h5>
+				<audio src="../songSeparation/music/21040_chorus/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_chorus/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_chorus/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_chorus/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_chorus/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="abjones_2_01" style="display:none" align="center">
+	<table id="abjones_2_01table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 4: abjones_2_01 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>abjones_2_01.wav</h5>
+				<audio src="../songSeparation/music/abjones_2_01/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/abjones_2_01/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/abjones_2_01/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/abjones_2_01/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/abjones_2_01/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="amy_13_04" style="display:none" align="center">
+	<table id="amy_13_04table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 5: amy_13_04 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>amy_13_04.wav</h5>
+				<audio src="../songSeparation/music/amy_13_04/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/amy_13_04/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/amy_13_04/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/amy_13_04/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/amy_13_04/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="annar_2_03" style="display:none" align="center">
+	<table id="annar_2_03table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 6: annar_2_03 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>annar_2_03.wav</h5>
+				<audio src="../songSeparation/music/annar_2_03/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_2_03/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_2_03/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_2_03/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_2_03/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="annar_4_02" style="display:none" align="center">
+	<table id="annar_4_02table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 7: annar_4_02 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>annar_4_02.wav</h5>
+				<audio src="../songSeparation/music/annar_4_02/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_4_02/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_4_02/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_4_02/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/annar_4_02/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="heycat_1_01" style="display:none" align="center">
+	<table id="heycat_1_01table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 8: heycat_1_01 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>heycat_1_01.wav</h5>
+				<audio src="../songSeparation/music/heycat_1_01/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/heycat_1_01/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/heycat_1_01/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/heycat_1_01/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/heycat_1_01/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="titon_3_08" style="display:none" align="center">
+	<table id="titon_3_08table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 9: titon_3_08 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>titon_3_08.wav</h5>
+				<audio src="../songSeparation/music/titon_3_08/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/titon_3_08/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/titon_3_08/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/titon_3_08/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/titon_3_08/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="yifen_2_13" style="display:none" align="center">
+	<table id="yifen_2_13table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 10: yifen_2_13 </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>yifen_2_13.wav</h5>
+				<audio src="../songSeparation/music/yifen_2_13/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/yifen_2_13/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/yifen_2_13/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/yifen_2_13/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/yifen_2_13/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="verse21040" style="display:none" align="center">
+	<table id="verse21040table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 11: 21040_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>21040_verse.wav</h5>
+				<audio src="../songSeparation/music/21040_verse/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_verse/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_verse/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21040_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="verse21069" style="display:none" align="center">
+	<table id="verse21069table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 12: 21069_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>21069_verse.wav</h5>
+				<audio src="../songSeparation/music/21069_verse/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21069_verse/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21069_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21069_verse/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/21069_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="chorus31137" style="display:none" align="center">
+	<table id="chorus31137table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 13: 31137_chorus </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>31137_chorus.wav</h5>
+				<audio src="../songSeparation/music/31137_chorus/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/31137_chorus/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/31137_chorus/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/31137_chorus/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/31137_chorus/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="verse45418" style="display:none" align="center">
+	<table id="verse45418table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 14: 45418_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>45418_verse.wav</h5>
+				<audio src="../songSeparation/music/45418_verse/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45418_verse/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45418_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45418_verse/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/45418_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="chorus54236" style="display:none" align="center">
+	<table id="chorus5423table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 15: 54236_chorus </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>54236_chorus.wav</h5>
+				<audio src="../songSeparation/music/54236_chorus/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/54236_chorus/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/54236_chorus/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/54236_chorus/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/54236_chorus/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="chorus61677" style="display:none" align="center">
+	<table id="chorus61677table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 16: 61677_chorus </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>61677_chorus.wav</h5>
+				<audio src="../songSeparation/music/61677_chorus/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/61677_chorus/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/61677_chorus/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/61677_chorus/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/61677_chorus/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
+<div id="verse90587" style="display:none" align="center">
+	<table id="verse90587table" cellspacing="0" summary="The technical specifications of the Apple PowerMac G5 series">
+		<caption>Table 17: 90587_verse </caption>
+		<tr>
+			<th scope="col" abbr="Configurations" class="nobg"></th>
+			
+			<th scope="col" abbr="Dual 1.8">
+				ground truth
+			</th>
+			<th scope="col" abbr="Dual 2">
+				our results
+			</th>
+		</tr>
+		<tr>
+			<th>mixture </th>
+			<td colspan="2" align= "center">
+				<h5>90587_verse.wav</h5>
+				<audio src="../songSeparation/music/90587_verse/mix/mix.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>vocal</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/90587_verse/groundtruth/vocals.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/90587_verse/ourresults/vocals.wav" controls></audio>
+			</td>
+		</tr>
+		<tr>
+			<th>accom</th>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/90587_verse/groundtruth/accompaniment.wav" controls></audio>
+			</td>
+			<td>
+				<!-- <h5>Everything Has Changed.mp3</h5> -->
+				<audio src="../songSeparation/music/90587_verse/ourresults/accompaniment.wav" controls></audio>
+			</td>
+		</tr>
+	</table>
+</div>
 </body>
+	<script type="text/javascript">
+	var audio = document.getElementsByTagName("audio");
+	for(var i=0, l = audio.length; i<l; i++){
+    		audio[i].addEventListener("play", function(){
+        	for(var i=0, l = audio.length; i<l; i++)
+            		if (audio[i]!=this)
+                	audio[i].pause();
+   	 });
+	}
+</script>
 </html>
